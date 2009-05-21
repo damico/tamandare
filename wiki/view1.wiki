@@ -1,0 +1,10 @@
+== Main Page / Home ==
+
+=== Form 1 ===
+ # URL/Link
+ # Tags
+ # Submit
+
+=== Form 2 ===
+ # Search
+ # Submit
