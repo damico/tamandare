@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="tamandare">
+    <xs:complexType>
+    <xs:sequence>
+    	<xs:element name="header">
+    		<xs:complexType>
+    			<xs:sequence>
+    				<xs:element name="return" >
+    					<xs:complexType>
+    						<xs:attribute name="code" type="xs:string"	use="required" />
+    						<xs:attribute name="message" type="xs:string"	use="required" />
+    					</xs:complexType>
+    				</xs:element>
+    			</xs:sequence>
+    			<xs:attribute name="date" type="xs:string"
+    				use="required" />
+    			<xs:attribute name="type" type="xs:integer"
+    				use="required" />
+    		</xs:complexType>
+    	</xs:element>
+    	<xs:element name="body">
+    		<xs:complexType>
+    		<xs:sequence>
+    			<xs:element name="url" minOccurs="0">
+    				<xs:complexType>
+    					<xs:attribute name="value" type="xs:string"	use="optional" />
+    				</xs:complexType>
+    			</xs:element>
+    			<xs:element name="tags" type="xs:string" minOccurs="0" maxOccurs="50"/>
+    		</xs:sequence>	
+    		</xs:complexType>
+    	</xs:element>
+    </xs:sequence>
+    </xs:complexType>
+    </xs:element>
+</xs:schema>
