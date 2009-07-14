@@ -1,5 +1,7 @@
 package org.jdamico.tamandare.exceptions;
 
+import java.net.URLEncoder;
+
 
 public class TamandareException extends Exception {
 
@@ -7,8 +9,12 @@ public class TamandareException extends Exception {
 	
 	private StackTraceElement[] stackTraceElements;
 	
+	private String message;
+	
 	public TamandareException(String message){
+		
 		super(message);
+		this.message = message;
 	}
 	
 	public TamandareException(){
@@ -18,12 +24,25 @@ public class TamandareException extends Exception {
 	public TamandareException(StackTraceElement[] stackTraceElements) {
 		this.stackTraceElements = stackTraceElements;
 	}
+	
+	public TamandareException(StackTraceElement[] stackTraceElements, String rootMessage) {
+		super(rootMessage);
+		this.stackTraceElements = stackTraceElements;
+		
+	}
 
 	public String getStackTraceElements(){
 		StringBuffer sb = new StringBuffer();
-		for(int i = 0; i < stackTraceElements.length; i++){
-			sb.append(stackTraceElements[i].getFileName()+"("+stackTraceElements[i].getLineNumber()+")\n");
+		
+		if(stackTraceElements == null){
+			sb.append(message);
+		}else{
+			for(int i = 0; i < stackTraceElements.length; i++){
+				sb.append(stackTraceElements[i].getFileName()+"("+stackTraceElements[i].getLineNumber()+")\n");
+			}
 		}
+		
+		
 		return sb.toString();
 	}
 	

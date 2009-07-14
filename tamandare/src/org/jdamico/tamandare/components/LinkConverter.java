@@ -38,8 +38,6 @@ public class LinkConverter implements Converters {
 						"</tamandare>";
 		
 		
-		
-		
 		XmlUtils xmlUtils = new XmlUtils();
 		xmlUtils.isDocValid(xml);
 		

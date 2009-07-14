@@ -8,22 +8,26 @@ import java.sql.SQLException;
 import org.jdamico.tamandare.exceptions.TamandareException;
 import org.jdamico.tamandare.utils.Constants;
 
-public class DB2manager implements DatabaseAdaptor {
+public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 
-	private static final DB2manager INSTANCE = new DB2manager();
-	public static DB2manager getInstance(){
+	private static final Derbymanager INSTANCE = new Derbymanager();
+	public static Derbymanager getInstance(){
 		return INSTANCE;
 	}
 	
+	/*
+	 * xmldocs
+	 * entity
+	 * */
+		
 	public boolean saveDocument(String xml) throws TamandareException  {
 		boolean ret = false;
 		PreparedStatement ps = null;
 		Connection con = null;
-		String classfn = "com.ibm.db2.jcc.DB2Driver";
-		String dburl = "jdbc:db2://" + Constants.DBHOST + ":" + Constants.DBPORT + "/" + Constants.DBNAME + "";
+	
 		try {
-			Class.forName(classfn);
-			con = DriverManager.getConnection(dburl, Constants.DBUSER, Constants.DBPASSWD);
+			Class.forName(getClassfn());
+			con = DriverManager.getConnection(getDBurl());
 			ps = con.prepareStatement(Constants.SQL_SAVEDOC);
 			ps.setString(1, xml);
 			ps.executeUpdate();
@@ -44,6 +48,26 @@ public class DB2manager implements DatabaseAdaptor {
 		}
 		
 		return ret;
+	}
+
+	public void search(String key) {
+		boolean ret = false;
+		PreparedStatement ps = null;
+		Connection con = null;
+
+		try {
+			Class.forName(getClassfn());
+			con = DriverManager.getConnection(getDBurl());
+			ps = con.prepareStatement(Constants.SQL_SAVEDOC);
+//			ps.setString(1, xml);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

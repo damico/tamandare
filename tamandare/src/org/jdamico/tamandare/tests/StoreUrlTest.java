@@ -17,14 +17,14 @@ public class StoreUrlTest extends TestCase {
 		String url = "http://dcon.com.br";
 		String tags = "blog damico";
 		Date date = new Date();
-		LinkObject link = new LinkObject(url, tags, null, new TamandareReturn(0,"success"));
+		LinkObject link = new LinkObject(url, tags, date, new TamandareReturn(0,"success"));
 		String xml = null;
 		TransactionManager transactionManager = new TransactionManager();
 		boolean ret = false;
 		try {
 			xml = ConverterFactory.getConverter(Constants.LINK, link).exec();
 			ret = transactionManager.saveDoc(xml);
-			
+			System.err.println(xml);
 		} catch (TamandareException e) {
 
 			try {
