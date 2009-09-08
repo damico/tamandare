@@ -25,6 +25,11 @@ public class JettyController implements Runnable {
 		handler.addServletWithMapping("org.jdamico.tamandare.web.Home",	"/home");
 		handler.addServletWithMapping("org.jdamico.tamandare.web.PostUrl",	"/postUrl");
 		handler.addServletWithMapping("org.jdamico.tamandare.web.PostSearch",	"/postSearch");
+		handler.addServletWithMapping("org.jdamico.tamandare.web.Delete",	"/d");
+		handler.addServletWithMapping("org.jdamico.tamandare.web.Update",	"/u");
+		handler.addServletWithMapping("org.jdamico.tamandare.web.Entity",	"/postEntity");
+		handler.addServletWithMapping("org.jdamico.tamandare.web.ListEntity",	"/listEntity");
+		handler.addServletWithMapping("org.jdamico.tamandare.web.Connection",	"/initConn");
 	}
 	
 	

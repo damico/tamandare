@@ -22,6 +22,7 @@ public class ManageProperties {
 		try {
 			properties.load(new FileInputStream(Constants.PROPERTIES_PATH));
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return properties.getProperty(prop);
 	}

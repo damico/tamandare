@@ -27,6 +27,7 @@ public class XmlUtils {
 			try {
 				schema = factory.newSchema(schemaLocation);
 			} catch (SAXException e) {
+				e.printStackTrace();
 				throw new TamandareException("Invalid xsd or xsd not found: "+e.getStackTrace());
 			}
 			Validator validator = schema.newValidator();

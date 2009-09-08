@@ -2,7 +2,7 @@ package org.jdamico.tamandare.tests;
 
 import java.util.Date;
 
-import org.jdamico.tamandare.components.ConverterFactory;
+import org.jdamico.tamandare.components.Converter2XMLFactory;
 import org.jdamico.tamandare.dataobjects.ErrorObject;
 import org.jdamico.tamandare.dataobjects.LinkObject;
 import org.jdamico.tamandare.dataobjects.TamandareReturn;
@@ -17,25 +17,37 @@ public class StoreUrlTest extends TestCase {
 		String url = "http://dcon.com.br";
 		String tags = "blog damico";
 		Date date = new Date();
+		
+	
+		
 		LinkObject link = new LinkObject(url, tags, date, new TamandareReturn(0,"success"));
 		String xml = null;
 		TransactionManager transactionManager = new TransactionManager();
 		boolean ret = false;
 		try {
-			xml = ConverterFactory.getConverter(Constants.LINK, link).exec();
-			ret = transactionManager.saveDoc(xml);
-			System.err.println(xml);
+			xml = Converter2XMLFactory.getConverter(Constants.LINK, link).exec();
+			
+			if(!transactionManager.isURLstored(link.getBody().getUrl())){
+				ret = transactionManager.saveDoc(xml);
+			}else{
+				System.out.println("URL already stored!");
+			}
+			
+			
 		} catch (TamandareException e) {
 
 			try {
-				xml = ConverterFactory.getConverter(Constants.ERROR, new ErrorObject(1, e.getStackTraceElements())).exec();
+				xml = Converter2XMLFactory.getConverter(Constants.ERROR, new ErrorObject(1, e.getStackTraceElements())).exec();
 				
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		}
-		assertTrue(ret);
+		
 		System.out.println(xml);
+		
+		assertTrue(ret);
+		
 	}
 
 }
