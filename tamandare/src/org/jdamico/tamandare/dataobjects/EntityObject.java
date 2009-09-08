@@ -3,25 +3,26 @@ package org.jdamico.tamandare.dataobjects;
 import java.util.Date;
 
 import org.jdamico.tamandare.utils.Constants;
-import org.jdamico.tamandare.utils.TamandareHelper;
 
-public class LinkObject implements TamandareXMLObject {
+public class EntityObject implements TamandareXMLObject {
 
 	private TamandareHeader header =  new TamandareHeader();
 	private TamandareBody body = new TamandareBody();
 	
-	public LinkObject(String url, String tags, Date date, TamandareReturn tReturn) {
+	
+	public EntityObject(String type, String signature, String entity, Date date, TamandareReturn tReturn) {
 		header.setDate(date);
-		header.setType(Constants.LINK);
+		header.setType(Constants.ENTITY);
 		header.setMessageReturn(tReturn);
 		setHeader(header);
-		body.setTags(TamandareHelper.getInstance().tags2Array(tags));
-		body.setUrl(url);
+		body.setSignature(signature);
+		body.setEntity(entity);
+		body.setEntityType(type);
 		setBody(body);
 	}
 
 
-	public LinkObject() {
+	public EntityObject() {
 		super();
 	}
 

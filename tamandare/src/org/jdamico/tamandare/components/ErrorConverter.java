@@ -7,7 +7,7 @@ import org.jdamico.tamandare.dataobjects.TamandareXMLObject;
 import org.jdamico.tamandare.exceptions.TamandareException;
 import org.jdamico.tamandare.utils.XmlUtils;
 
-public class ErrorConverter implements Converters {
+public class ErrorConverter implements XMLConverters {
 	
 	TamandareXMLObject xmlObj;
 

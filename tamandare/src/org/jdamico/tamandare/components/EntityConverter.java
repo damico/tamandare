@@ -8,22 +8,18 @@ import org.jdamico.tamandare.exceptions.TamandareException;
 import org.jdamico.tamandare.utils.Constants;
 import org.jdamico.tamandare.utils.XmlUtils;
 
-public class LinkConverter implements XMLConverters {
+public class EntityConverter implements XMLConverters {
 
 	TamandareXMLObject xmlObj;
 	
-	public LinkConverter(TamandareXMLObject xmlObj) {
+	public EntityConverter(TamandareXMLObject xmlObj) {
 		this.xmlObj = xmlObj;
 	}
 
 	public String exec() throws TamandareException {
 		Format formatter = new SimpleDateFormat(Constants.DATE_FORMAT);
 		
-		String[] tagsArray = xmlObj.getBody().getTags();
-		StringBuffer sb = new StringBuffer();
-		for(int i = 0; i < tagsArray.length; i++){
-			sb.append("<tags>"+tagsArray[i]+"</tags>\n");
-		}
+		
 		
 		
 		
@@ -34,7 +30,11 @@ public class LinkConverter implements XMLConverters {
 						"<return code =\""+xmlObj.getHeader().getMessageReturn().getReturnCode()+"\" message=\""+xmlObj.getHeader().getMessageReturn().getReturnMsg()+"\" />\n" +
 						"</header>\n" +
 						"<body>\n" +
-						"<url value=\""+xmlObj.getBody().getUrl()+"\" />\n" + sb.toString() +
+						
+						"<signature type=\""+xmlObj.getBody().getEntityType()+"\" entity=\""+xmlObj.getBody().getEntity()+"\">" +
+								"<content>"+xmlObj.getBody().getSignature()+"</content>" +
+						"</signature>\n" +
+						
 						"</body>\n" +
 						"</tamandare>";
 		
@@ -42,7 +42,7 @@ public class LinkConverter implements XMLConverters {
 		XmlUtils xmlUtils = new XmlUtils();
 		xmlUtils.isDocValid(xml);
 		
-		
+		System.err.println(xml);
 		
 		return xml;
 	}
