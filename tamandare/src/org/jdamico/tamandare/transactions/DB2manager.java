@@ -15,7 +15,7 @@ public class DB2manager implements DatabaseAdaptor {
 		return INSTANCE;
 	}
 	
-	public boolean saveDocument(String xml) throws TamandareException  {
+	public boolean saveDocument(String xml, String urlHash, String tagsHash) throws TamandareException  {
 		boolean ret = false;
 		PreparedStatement ps = null;
 		Connection con = null;
@@ -24,7 +24,7 @@ public class DB2manager implements DatabaseAdaptor {
 		try {
 			Class.forName(classfn);
 			con = DriverManager.getConnection(dburl, Constants.DBUSER, Constants.DBPASSWD);
-			ps = con.prepareStatement(Constants.SQL_SAVEDOC);
+			ps = con.prepareStatement(Constants.SQL_SAVEDOC_DB2);
 			ps.setString(1, xml);
 			ps.executeUpdate();
 			ret = true;

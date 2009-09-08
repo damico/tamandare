@@ -22,12 +22,23 @@
     	<xs:element name="body">
     		<xs:complexType>
     		<xs:sequence>
-    			<xs:element name="url" minOccurs="0">
+    			<xs:element name="url" minOccurs="0" maxOccurs="1">
     				<xs:complexType>
-    					<xs:attribute name="value" type="xs:string"	use="optional" />
+    					<xs:attribute name="value" type="xs:string"	use="required" />
     				</xs:complexType>
     			</xs:element>
     			<xs:element name="tags" type="xs:string" minOccurs="0" maxOccurs="50"/>
+    			<xs:element name="signature" minOccurs="0" maxOccurs="1">
+    				<xs:complexType>
+    					<xs:sequence>
+    						<xs:element name="content"
+    							type="xs:string" minOccurs="0" maxOccurs="1">
+    						</xs:element>
+    					</xs:sequence>
+    					<xs:attribute name="type" type="xs:string" use="required" />
+    					<xs:attribute name="entity" type="xs:string" use="required" />
+    				</xs:complexType>
+    			</xs:element>
     		</xs:sequence>	
     		</xs:complexType>
     	</xs:element>

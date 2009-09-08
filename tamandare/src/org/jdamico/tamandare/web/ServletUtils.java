@@ -16,6 +16,13 @@ public class ServletUtils {
 		return ret;
 	}
 	
+	
+	public String cleanTags(String tags){
+		String ret = tags.replaceAll("<tags>", "");
+		ret = ret.replaceAll("</tags>", " ");
+		return ret;
+	}
+	
 	public String getHTMLalert(String msg){
 		String ret = 	"<table width='400' bgcolor = '#CCFFFF' border='0' align='center' cellpadding='8' cellspacing='8'>" +
 						"<tr valign='top'><td> "+msg+" </td></tr>" +
@@ -30,13 +37,13 @@ public class ServletUtils {
 	}
 	
 	public String getHTMLFooter(){
-		String ret = 	"<hr>" + Constants.APP_NAME + " - " + Constants.APP_VERSION +
+		String ret = 	"<hr><a href='home'>" + Constants.APP_NAME + "</a> - " + Constants.APP_VERSION +
 						"</body></html>\n";
 		return ret;
 	}
 	
 	public String getFFtable(String a, String b, String c, String d, String w){
-		String ret = 	"<table width='"+w+"' border='0' align='center' cellpadding='8' cellspacing='8'>" +
+		String ret = 	"<table width='"+w+"' border='0' align='right' cellpadding='8' cellspacing='8'>" +
 						"<tr valign='top'><td>"+a+"</td><td>"+b+"</td></tr>" +
 						"<tr valign='top'><td>"+c+"</td><td>"+d+"</td></tr>" +
 						"</table>";
