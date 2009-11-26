@@ -68,7 +68,7 @@ public interface Constants {
 	
 	public static final String SQL_UPDATE_BY_DOC_ID_BY_XML = "UPDATE TAMANDARE.XMLDOCS SET DOC_DATA = XMLPARSE(DOCUMENT CAST (? AS CLOB) PRESERVE WHITESPACE) WHERE DOC_ID = ?";
 	
-	public static final String XSD_PATH = "/home/jdamico/workspace/tamandare/src/org/jdamico/tamandare/tests/tamandare.xsd";
+	public static final String XSD_PATH = "/etc/tamandare/tamandare.xsd";
 	
 	public static final int WEB_SERVER_PORT = 8989;
 	public static final int SOCKET_SERVER_PORT = 8888;

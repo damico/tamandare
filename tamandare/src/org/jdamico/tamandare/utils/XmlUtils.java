@@ -28,7 +28,7 @@ public class XmlUtils {
 				schema = factory.newSchema(schemaLocation);
 			} catch (SAXException e) {
 				e.printStackTrace();
-				throw new TamandareException("Invalid xsd or xsd not found: "+e.getStackTrace());
+				throw new TamandareException("Invalid xsd or xsd not found: "+e.getStackTrace(),this.getClass().getName());
 			}
 			Validator validator = schema.newValidator();
 			
@@ -54,7 +54,7 @@ public class XmlUtils {
 				throw new TamandareException(e.getStackTrace(),err);
 			}
 		}else{
-			throw new TamandareException("xsd not found!");
+			throw new TamandareException("xsd not found!",this.getClass().getName());
 		}
 		
 			
