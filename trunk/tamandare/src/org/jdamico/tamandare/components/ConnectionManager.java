@@ -16,6 +16,7 @@ public class ConnectionManager extends TamandareObjectManager {
 	}
 	
 	public Combo isHostValid(String host, String entityName) throws IOException {
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "isHostValid(String host, String entityName)");
 		
 		Combo combo = new Combo();
 		
@@ -41,6 +42,8 @@ public class ConnectionManager extends TamandareObjectManager {
 	}
 	
 	public Combo areU(String host, String entityName) throws IOException {
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "areU(String host, String entityName)");
+		
 		Combo combo = new Combo();
 		
 		Client  socketClient = new Client();
@@ -51,7 +54,7 @@ public class ConnectionManager extends TamandareObjectManager {
 			
 			boolean ret = Boolean.valueOf(cp.getValue());
 			if(ret) combo = setSuccessXML("Host found and valid, connection initialized.");
-			else combo = setSuccessXML("Host found and valid, but unrecognized by you. ");
+			else combo = setSuccessXML("Host found and valid, but unrecognized by you ("+host+": I am not '"+entityName+"'). ");
 			
 		
 		} catch (TamandareException e) {
@@ -65,7 +68,8 @@ public class ConnectionManager extends TamandareObjectManager {
 	
 	
 	public void sendSignature(String host, String entityName) throws IOException {
-			
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSignature(String host, String entityName)");
+		
 			ThreadRunnableManager trm = new ThreadRunnableManager();
 			trm.startSingatureProcess("sendSignature", host, entityName);
 		

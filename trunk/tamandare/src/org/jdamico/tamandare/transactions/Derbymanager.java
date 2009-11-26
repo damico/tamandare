@@ -337,11 +337,7 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 		
 	}
 
-	public boolean isSignature(String signature) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	
 	
 
 }

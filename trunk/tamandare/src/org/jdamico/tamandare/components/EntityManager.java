@@ -20,6 +20,9 @@ public class EntityManager extends TamandareObjectManager {
 	}
 	
 	public Combo storeEntity(String type, String signature) throws TamandareException{
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "storeEntity(String type, String signature)");
+		
 		Date date = new Date();
 		Combo combo = new Combo();
 		
@@ -54,6 +57,10 @@ public class EntityManager extends TamandareObjectManager {
 	}
 
 	private String[] parseSignature(String signature) {
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "parseSignature(String signature)");
+
+		
 		String[] ret = new String[2];
 		StringTokenizer st = new StringTokenizer(signature, Constants.SIGNATURE_DELIMITER);
 		ret[0] = st.nextToken();
@@ -62,11 +69,17 @@ public class EntityManager extends TamandareObjectManager {
 	}
 
 	public Map<Integer, String> getEntities() {
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "getEntities()");
+		
 		TransactionManager transactionManager = new TransactionManager();
 		return transactionManager.getDocsByType(Constants.ENTITY, "//tamandare/body/signature/content");
 	}
 
 	public Map<Integer, String> getEntityNames() {
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "getEntityNames()");
+		
 		TransactionManager transactionManager = new TransactionManager();
 		return transactionManager.getDocsByType(Constants.ENTITY, "//tamandare/body/signature/@entity");
 	}

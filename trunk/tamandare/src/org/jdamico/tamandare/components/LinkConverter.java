@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import org.jdamico.tamandare.dataobjects.TamandareXMLObject;
 import org.jdamico.tamandare.exceptions.TamandareException;
 import org.jdamico.tamandare.utils.Constants;
+import org.jdamico.tamandare.utils.TamandareHelper;
 import org.jdamico.tamandare.utils.XmlUtils;
 
 public class LinkConverter implements XMLConverters {
@@ -19,13 +20,7 @@ public class LinkConverter implements XMLConverters {
 	public String exec() throws TamandareException {
 		Format formatter = new SimpleDateFormat(Constants.DATE_FORMAT);
 		
-		String[] tagsArray = xmlObj.getBody().getTags();
-		StringBuffer sb = new StringBuffer();
-		for(int i = 0; i < tagsArray.length; i++){
-			sb.append("<tags>"+tagsArray[i]+"</tags>\n");
-		}
-		
-		
+		String tags = TamandareHelper.getInstance().tagsArray2String(xmlObj.getBody().getTags(), true);
 		
 		String strDate = formatter.format(xmlObj.getHeader().getDate());
 		String xml = 	"<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" +
@@ -34,7 +29,7 @@ public class LinkConverter implements XMLConverters {
 						"<return code =\""+xmlObj.getHeader().getMessageReturn().getReturnCode()+"\" message=\""+xmlObj.getHeader().getMessageReturn().getReturnMsg()+"\" />\n" +
 						"</header>\n" +
 						"<body>\n" +
-						"<url value=\""+xmlObj.getBody().getUrl()+"\" />\n" + sb.toString() +
+						"<url value=\""+xmlObj.getBody().getUrl()+"\" />\n" + tags +
 						"</body>\n" +
 						"</tamandare>";
 		
