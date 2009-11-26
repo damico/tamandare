@@ -38,7 +38,7 @@ public class Client {
 		int count = 0;
 		
 		while ((fromServer = in.readLine()) != null) {
-			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "fromServer  "+fromServer + " | fromUser "+fromUser + " | msg "+msg);
+			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "from["+jtopSocket.getLocalSocketAddress().toString()+"]  "+fromServer + " | to["+jtopSocket.getRemoteSocketAddress().toString()+"] "+fromUser + " | msg "+msg);
 			if (fromServer.equals(":")){
 				out.println(fromUser);
 			}else{

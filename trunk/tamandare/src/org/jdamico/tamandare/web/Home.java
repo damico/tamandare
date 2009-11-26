@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.jdamico.tamandare.components.EntityManager;
 import org.jdamico.tamandare.components.LiveMemoryManager;
 import org.jdamico.tamandare.components.URLManager;
+import org.jdamico.tamandare.utils.ManageProperties;
 
 public class Home extends HttpServlet {
 
@@ -177,7 +178,7 @@ public class Home extends HttpServlet {
 		"\n";
 		
 		PrintWriter out = response.getWriter();
-		out.println(ServletUtils.getInstance().getHTMLHeader("Home"));
+		out.println(ServletUtils.getInstance().getHTMLHeader("Home of "+ManageProperties.getInstance().read("whoami")));
 		String msg = request.getParameter("msg");
 		if(msg!=null) out.println(ServletUtils.getInstance().getHTMLalert(msg));
 		String staticScreen = "<table width='90%' border='0' align='center' cellpadding='2' cellspacing='2'>" +

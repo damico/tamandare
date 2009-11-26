@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.jdamico.tamandare.components.ComplexPacketCommandManager;
+import org.jdamico.tamandare.components.LoggerManager;
 import org.jdamico.tamandare.exceptions.TamandareException;
 import org.jdamico.tamandare.utils.TamandareHelper;
 
@@ -33,7 +34,8 @@ public class SocketProtocol {
     public ProtocolResponse parseMessage(String msg) throws TamandareException, SecurityException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException{
     	ProtocolResponse response = null;
     	
-    	System.err.println("////////////////////////// "+msg);
+
+    	LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), msg);
     	
     	if(msg.length() == 1){
     		if(msg.equals("?")) response = new ProtocolResponse("!", OPEN);

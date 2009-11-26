@@ -2,6 +2,8 @@ package org.jdamico.tamandare.exceptions;
 
 import java.net.URLEncoder;
 
+import org.jdamico.tamandare.components.LoggerManager;
+
 
 public class TamandareException extends Exception {
 
@@ -12,10 +14,18 @@ public class TamandareException extends Exception {
 	private String message;
 	
 	public TamandareException(String message){
-		
 		super(message);
 		this.message = message;
 	}
+	
+	public TamandareException(String message, String className){
+		super(message);
+		this.message = message;
+		LoggerManager.getInstance().logAtExceptionTime(className, message);
+
+	}
+	
+	
 	
 	public TamandareException(){
 		super();
