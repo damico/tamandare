@@ -34,6 +34,16 @@ public class TamandareHelper {
 		
 		return tagArray;
 	}
+	
+	
+	public String tagsArray2String(String[] tagsArray, boolean xml){
+		StringBuffer sb = new StringBuffer();
+		for(int i = 0; i < tagsArray.length; i++){
+			if(xml) sb.append("<tags>"+tagsArray[i]+"</tags>\n");
+			else sb.append(tagsArray[i]+" \n");
+		}
+		return sb.toString();
+	}
 
 	public String complexPacket2String(String addr, String type, String value){
 		return "{["+addr+"]:["+type+"]:["+value+"]}";

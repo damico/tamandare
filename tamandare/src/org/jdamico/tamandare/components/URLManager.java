@@ -24,6 +24,9 @@ public class URLManager extends TamandareObjectManager {
 	}
 	
 	public Combo storeURL(String url, String tags) throws TamandareException{
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "storeURL(String url, String tags)");
+		
 		Date date = new Date();
 		Combo combo = new Combo();
 		
@@ -59,27 +62,39 @@ public class URLManager extends TamandareObjectManager {
 			combo = setErrorXML(e, combo);
 		}
 		
-		System.err.println(combo.getXml());
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "combo.getXml() "+combo.getXml());
 		
 		return combo;
 	}
 	
 	public Map<Integer, String> search(String key){
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "search(String key)");
+		
 		TransactionManager transactionManager = new TransactionManager();
 		return transactionManager.search(key);
 	}
 
 	public ArrayList<String> getTags() {
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "getTags()");
+		
 		TransactionManager transactionManager = new TransactionManager();
 		return transactionManager.getTags();
 	}
 	
 	public ArrayList<String> getTagsById(int id) {
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "getTagsById(int id)");
+		
 		TransactionManager transactionManager = new TransactionManager();
 		return transactionManager.getTagsById(id);
 	}
 	
 	public Combo getDocById(int id) throws TamandareException {
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "getDocById(int id)");
+		
 		TransactionManager transactionManager = new TransactionManager();
 		String[] ret = transactionManager.getDocById(id);
 		TamandareXMLObject tObj = Converter2ObjFactory.getConverter(Constants.LINK, ret[2]).exec();
@@ -88,11 +103,16 @@ public class URLManager extends TamandareObjectManager {
 	}
 	
 	public boolean isURLstored(String url){
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "isURLstored(String url)");
+		
 		TransactionManager transactionManager = new TransactionManager();
 		return transactionManager.isURLstored(url);
 	}
 
 	public Combo updateURL(String sourceTagsHash, String tags, String stringDocId, String xml) {
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "updateURL(String sourceTagsHash, String tags, String stringDocId, String xml)");
 		
 		Combo combo = null;
 		boolean upd =  false;
@@ -118,7 +138,7 @@ public class URLManager extends TamandareObjectManager {
 			e1.printStackTrace();
 		}
 		
-		System.err.println(xml);
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "xml: "+xml);
 		
 		if(sourceTagsHash.equals(newTagsHash)){
 			combo = setSuccessXML("Nothing to update!");	
@@ -127,8 +147,6 @@ public class URLManager extends TamandareObjectManager {
 			try {
 				upd = transactionManager.update(docId, xml);
 				
-				System.err.println("+++++++++++++++++++++++++++++   "+upd);
-						
 				combo = setSuccessXML("Document updated!");
 				
 			} catch (TamandareException e) {

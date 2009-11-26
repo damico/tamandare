@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jdamico.tamandare.components.EntityManager;
+import org.jdamico.tamandare.components.LiveMemoryManager;
 import org.jdamico.tamandare.components.URLManager;
 
 public class Home extends HttpServlet {
@@ -151,6 +152,17 @@ public class Home extends HttpServlet {
 		while(i.hasNext()){
 			t.append(i.next());
 		}
+		
+		
+		Map<String, Boolean> sessions = LiveMemoryManager.getSessions();
+		Set<String> keys = sessions.keySet();
+		
+		Object[] keysArray = keys.toArray();
+		
+		for(int k = 0; k < keysArray.length; k++){
+			System.err.println("jose ============= "+(String)keysArray[k]);
+		}
+		
 		
 		String bodyE = 	"<table width='100' border='0' align='center' cellpadding='8' cellspacing='8'><tr><td>" +
 				"<table width = \"250\" align = \"center\" cellpadding = '10' cellspacing = '0'>\n"+

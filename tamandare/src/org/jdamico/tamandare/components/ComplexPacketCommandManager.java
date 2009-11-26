@@ -14,15 +14,22 @@ public class ComplexPacketCommandManager {
 		return INSTANCE;
 	}
 	
-	public boolean areU(String value){
+	public boolean areU(String value) throws TamandareException{
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "areU(String value)");
+		
 		boolean ret = false;
-		if(value.equals(ManageProperties.getInstance().read(Constants.WHO_AM_I))) ret = true;
+		String whoami = ManageProperties.getInstance().read(Constants.WHO_AM_I).trim();
+		ComplexPacket cp = TamandareHelper.getInstance().string2ComplexPacket(value);
+		value = cp.getValue();
+		if(value.equals(whoami)) ret = true;
+
 		return ret;
 	}
 	
 	public void sendSignature(String sComplexPacket) throws TamandareException{
 
-		System.err.println("sendSignature(String "+sComplexPacket+")");
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSignature(String "+sComplexPacket+")");
 		
 		ComplexPacket cp = TamandareHelper.getInstance().string2ComplexPacket(sComplexPacket);
 		
@@ -34,7 +41,9 @@ public class ComplexPacketCommandManager {
 	
 	public void sendSessionAcceptance(String sComplexPacket) throws TamandareException{
 
-		System.err.println("sendSessionAcceptance(String "+sComplexPacket+")");
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSessionAcceptance(String "+sComplexPacket+")");
+		ComplexPacket cp = TamandareHelper.getInstance().string2ComplexPacket(sComplexPacket);
+		LiveMemoryManager.setSessions(cp.getValue(), true);
 		
 		
 	}

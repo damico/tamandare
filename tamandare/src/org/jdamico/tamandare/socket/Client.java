@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import org.jdamico.tamandare.components.LoggerManager;
 import org.jdamico.tamandare.exceptions.TamandareException;
 import org.jdamico.tamandare.utils.Constants;
 import org.jdamico.tamandare.utils.TamandareHelper;
@@ -14,6 +15,8 @@ import org.jdamico.tamandare.utils.TamandareHelper;
 public class Client {
 	public String initClient(String msg, String host) throws IOException, TamandareException{
 
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "initClient(String msg, String host)");
+		
 		Socket jtopSocket = null;
 		PrintWriter out = null;
 		BufferedReader in = null;
@@ -35,14 +38,14 @@ public class Client {
 		int count = 0;
 		
 		while ((fromServer = in.readLine()) != null) {
-			System.out.println(" +++++++++++++++++++++ "+fromServer + " | "+fromUser + " | "+msg);
+			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "fromServer  "+fromServer + " | fromUser "+fromUser + " | msg "+msg);
 			if (fromServer.equals(":")){
 				out.println(fromUser);
 			}else{
 				break;
 			}
 			count++;
-			System.out.println(" ---- "+count);
+			
 			if(count==2) break;
 		}
 
@@ -56,6 +59,9 @@ public class Client {
 	}
 
 	public ComplexPacket areU(ComplexPacket cp, String entityName) throws TamandareException, IOException {
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "areU(ComplexPacket cp, String entityName)");
+		
 		Socket jtopSocket = null;
 		PrintWriter out = null;
 		BufferedReader in = null;
@@ -99,6 +105,9 @@ public class Client {
 	}
 
 	public ComplexPacket sendSignature(ComplexPacket cp, String entityName) throws TamandareException, IOException {
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSignature(ComplexPacket cp, String entityName)");
+		
 		Socket jtopSocket = null;
 		PrintWriter out = null;
 		BufferedReader in = null;
@@ -140,14 +149,17 @@ public class Client {
 	}
 
 	public ComplexPacket sendSessionAcceptance(ComplexPacket cp) throws TamandareException, IOException {
-		Socket jtopSocket = null;
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSessionAcceptance(ComplexPacket cp)");
+		
+		Socket clientSocket = null;
 		PrintWriter out = null;
 		BufferedReader in = null;
 		int port = Constants.SOCKET_SERVER_PORT;
 		try {
-			jtopSocket = new Socket(cp.getAddr(), port);
-			out = new PrintWriter(jtopSocket.getOutputStream(), true);
-			in = new BufferedReader(new InputStreamReader(jtopSocket.getInputStream()));
+			clientSocket = new Socket(cp.getAddr(), port);
+			out = new PrintWriter(clientSocket.getOutputStream(), true);
+			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		} catch (UnknownHostException e) {
 			throw new TamandareException("Don't know about host: "+cp.getAddr()+".");
 		} catch (IOException e) {
@@ -161,13 +173,16 @@ public class Client {
 		String fromServer;
 		
 		
+		
 		if(Boolean.valueOf(cp.getValue())){
 			cp.setType("sendSessionAcceptance");
 		}else{
 			cp.setType("sendSessionDenied");
 		}
 		
-		cp.setValue(jtopSocket.getLocalAddress().toString());
+		String clientAddr = clientSocket.getLocalAddress().toString(); 
+		
+		cp.setValue(clientAddr.replaceAll("/", ""));
 		
 		String fromUser = TamandareHelper.getInstance().complexPacket2String(cp.getAddr(), cp.getType(), cp.getValue());
 
@@ -187,12 +202,62 @@ public class Client {
 		out.close();
 		in.close();
 
-		jtopSocket.close();
-		System.err.println("**111111111111********1111111111********** "+fromUser);
+		clientSocket.close();
+		
 		
 		cp.setSComplexPacket(fromServer);
 		
 		return cp;
 	}
  
+	
+	public ComplexPacket sendMyTags(ComplexPacket cp) throws TamandareException, IOException {
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSessionAcceptance(ComplexPacket cp)");
+		
+		Socket clientSocket = null;
+		PrintWriter out = null;
+		BufferedReader in = null;
+		int port = Constants.SOCKET_SERVER_PORT;
+		try {
+			clientSocket = new Socket(cp.getAddr(), port);
+			out = new PrintWriter(clientSocket.getOutputStream(), true);
+			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		} catch (UnknownHostException e) {
+			throw new TamandareException("Don't know about host: "+cp.getAddr()+".");
+		} catch (IOException e) {
+			throw new TamandareException("Couldn't get I/O for the connection to: "+cp.getAddr()+".");
+		}
+		
+		
+		
+		
+		
+		String fromServer;
+		String fromUser = TamandareHelper.getInstance().complexPacket2String(cp.getAddr(), cp.getType(), cp.getValue());
+
+		int count = 0;
+		
+		while ((fromServer = in.readLine()) != null) {
+
+			if (fromServer.equals(":")){
+				out.println(fromUser);
+			}else{
+				break;
+			}
+			count++;
+			if(count==2) break;
+		} 
+
+		out.close();
+		in.close();
+
+		clientSocket.close();
+		
+		
+		cp.setSComplexPacket(fromServer);
+		
+		return cp;
+	}
+	
 }

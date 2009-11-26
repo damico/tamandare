@@ -3,6 +3,8 @@ package org.jdamico.tamandare.threads;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.jdamico.tamandare.components.LoggerManager;
+
 public class ThreadRunnableManager {
 	public void startSingatureProcess(String threadName, String host, String entityName ){
 		// create and name each runnable             
@@ -12,7 +14,7 @@ public class ThreadRunnableManager {
 		
 
 
-		System.out.println( "Starting thread" );
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Starting thread: "+threadName );
 
 		// create ExecutorService to manage threads                        
 		ExecutorService threadExecutor = Executors.newFixedThreadPool( 1 );
@@ -22,24 +24,24 @@ public class ThreadRunnableManager {
 		
 		if(threadExecutor.isTerminated()){
 			threadExecutor.shutdown(); // shutdown worker threads
-			System.out.println("done... executor");
+			
 		}
 
 		
 
-		System.out.println( "Threads started, main ends\n" );
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Stopping thread: "+threadName );
 	}
 
 	public void startSessionAcceptanceProcess(String threadName, String host, String signature) {
 	
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Starting thread: "+threadName );
+		
 		SessionAcceptanceThread thread = new SessionAcceptanceThread(threadName, host, signature);
 		
 		
 
 
-		System.out.println( "Starting thread" );
-
-		// create ExecutorService to manage threads                        
+				// create ExecutorService to manage threads                        
 		ExecutorService threadExecutor = Executors.newFixedThreadPool( 1 );
 
 		// start threads and place in runnable state   
@@ -47,12 +49,12 @@ public class ThreadRunnableManager {
 		
 		if(threadExecutor.isTerminated()){
 			threadExecutor.shutdown(); // shutdown worker threads
-			System.out.println("done... executor");
+			
 		}
 
 		
 
-		System.out.println( "Threads started, main ends\n" );
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Stopping thread: "+threadName );
 		
 	}
 }
