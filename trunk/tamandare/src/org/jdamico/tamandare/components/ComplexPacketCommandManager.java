@@ -52,4 +52,13 @@ public class ComplexPacketCommandManager {
 		
 		return "true";
 	}
+	
+	public String sendSessionDenied(String sComplexPacket) throws TamandareException{
+
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSessionDenied(String "+sComplexPacket+")");
+		ComplexPacket cp = TamandareHelper.getInstance().string2ComplexPacket(sComplexPacket);
+		LiveMemoryManager.setSessions(cp.getValue(), false);
+		
+		return "false";
+	}
 }
