@@ -107,8 +107,11 @@ public interface Constants {
 	public static final String SEVERE_LOGLEVEL = " S ";
 	public static final String NORMAL_LOGLEVEL = " N ";
 	public static final int FIXED_LOGLIMIT = 5000000;
-
 	
+	public static final String SQL_ISENTITY_NAME_STORED = "select XMLSERIALIZE(xmlquery('//tamandare/body/signature' passing BY REF DOC_DATA EMPTY ON EMPTY) " +
+	"AS clob) " +
+	"FROM TAMANDARE.XMLDOCS " +
+	"WHERE XMLEXISTS ('//tamandare/body/signature[@entity = \"VAR\"]' passing BY REF DOC_DATA) ";
 	
 	
 	

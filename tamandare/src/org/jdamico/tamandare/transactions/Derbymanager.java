@@ -337,6 +337,30 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 		
 	}
 
+	public boolean isEntityNameStored(String value) {
+		boolean isEntityStored = false;
+		String sql = Constants.SQL_ISENTITY_NAME_STORED.replaceAll("VAR", value);
+		
+		PreparedStatement ps = null;
+		Connection con = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName(getClassfn());
+			con = DriverManager.getConnection(getDBurl());
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				isEntityStored = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return isEntityStored;
+	}
+
 	
 	
 
