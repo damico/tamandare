@@ -35,7 +35,7 @@ public class SocketProtocol {
     	ProtocolResponse response = null;
     	
 
-    	LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), msg);
+    	LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "parseMessage( "+msg+" )");
     	
     	if(msg.length() == 1){
     		if(msg.equals("?")) response = new ProtocolResponse("!", OPEN);
@@ -44,6 +44,7 @@ public class SocketProtocol {
     		if(msg.charAt(0) == '{') response = new ProtocolResponse(executeComplexPacketCmd(TamandareHelper.getInstance().string2ComplexPacket(msg)), OPEN);
     	}
     	
+    	LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Atomic response: "+response.getOutputMessage());
     	
     	return response;
     }

@@ -257,10 +257,11 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 		return ret;
 	}
 
-	public boolean isEntityStored(String signature) {
+	public boolean isEntitySignatureStored(String signature) {
 		boolean isEntityStored = false;
-		String sql = Constants.SQL_ISENTITYSTORED.replaceAll("VAR", signature);
+		String sql = Constants.SQL_ISENTITY_SIGNATURE_STORED.replaceAll("VAR", signature);
 		
+
 		PreparedStatement ps = null;
 		Connection con = null;
 		ResultSet rs = null;

@@ -1,0 +1,1 @@
+select DOC_ID FROM TAMANDARE.XMLDOCS WHERE XMLEXISTS ('//tamandare/body/signature/content[text()="bastos"]' passing BY REF DOC_DATA) 

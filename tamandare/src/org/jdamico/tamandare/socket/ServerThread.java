@@ -33,8 +33,8 @@ public class ServerThread extends Thread {
 	    out.println(outputLine);
 
 	    while ((inputLine = in.readLine()) != null) {
-		outputLine = sp.processInput(inputLine);
-		out.println(outputLine);
+	    	outputLine = sp.processInput(inputLine);
+	    	out.println(outputLine);
 		if (outputLine.equals("Bye"))
 		    break;
 	    }

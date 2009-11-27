@@ -1,8 +1,11 @@
 package org.jdamico.tamandare.threads;
 
+import org.jdamico.tamandare.components.LoggerManager;
 import org.jdamico.tamandare.socket.Client;
 import org.jdamico.tamandare.socket.ComplexPacket;
 import org.jdamico.tamandare.transactions.TransactionManager;
+import org.jdamico.tamandare.utils.Constants;
+import org.jdamico.tamandare.utils.ManageProperties;
 
 public class SessionAcceptanceThread  implements Runnable {
 
@@ -23,11 +26,13 @@ public class SessionAcceptanceThread  implements Runnable {
 			
 			
 			TransactionManager tm = new TransactionManager();
-			boolean value = tm.isEntitystored(signature);
+			boolean value = tm.isEntitySignatureStored(signature);
+			
+			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "tm.isEntitySignatureStored("+signature+"): "+value);
 			
 			Client  socketClient = new Client();
 			
-			ComplexPacket cp = new ComplexPacket(host, threadName, String.valueOf(value)); 
+			ComplexPacket cp = new ComplexPacket(host, threadName, String.valueOf(value), ManageProperties.getInstance().read(Constants.MY_ADDR)); 
 				cp = socketClient.sendSessionAcceptance(cp);
 
 			

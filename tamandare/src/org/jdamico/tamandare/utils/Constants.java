@@ -59,14 +59,20 @@ public interface Constants {
 	
 	public static final String SQL_ISURL_HASH_STORED = "SELECT DOC_URL_HASH FROM TAMANDARE.XMLDOCS WHERE DOC_URL_HASH = ?";
 	
-	public static final String SQL_ISENTITYSTORED = "select XMLSERIALIZE(xmlquery('string(//tamandare/body/signature/content/@value)' passing BY REF DOC_DATA EMPTY ON EMPTY) " +
-	"AS clob) " +
-	"FROM TAMANDARE.XMLDOCS " +
-	"WHERE XMLEXISTS ('//tamandare/body/signature/content[contains(translate(.,\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"abcdefghijklmnopqrstuvwxyz\"),\"VAR\")]' passing BY REF DOC_DATA) ";
+	public static final String SQL_ISENTITY_SIGNATURE_STORED = "select DOC_ID FROM TAMANDARE.XMLDOCS " +
+	"WHERE XMLEXISTS ('//tamandare/body/signature/content[text()=\"VAR\"]' passing BY REF DOC_DATA) ";
 	
 	public static final String SQL_DELETE_BY_DOC_ID = "DELETE FROM TAMANDARE.XMLDOCS WHERE DOC_ID = ?";
 	
 	public static final String SQL_UPDATE_BY_DOC_ID_BY_XML = "UPDATE TAMANDARE.XMLDOCS SET DOC_DATA = XMLPARSE(DOCUMENT CAST (? AS CLOB) PRESERVE WHITESPACE) WHERE DOC_ID = ?";
+	
+	public static final String SQL_ISENTITY_NAME_STORED = "select XMLSERIALIZE(xmlquery('//tamandare/body/signature' passing BY REF DOC_DATA EMPTY ON EMPTY) " +
+	"AS clob) " +
+	"FROM TAMANDARE.XMLDOCS " +
+	"WHERE XMLEXISTS ('//tamandare/body/signature[@entity = \"VAR\"]' passing BY REF DOC_DATA) ";
+	
+	
+	/* App data */
 	
 	public static final String XSD_PATH = "/etc/tamandare/tamandare.xsd";
 	
@@ -84,6 +90,7 @@ public interface Constants {
 	public static final String DB_PATH = "dbpath";
 	public static final String WHO_AM_I = "whoami";
 	public static final String TYPE = "type";
+	public static final String MY_ADDR = "myaddr";
 	
 	/* sys messages */
 	public static final String URL_FINE_ADDED = "Url added!";
@@ -108,10 +115,9 @@ public interface Constants {
 	public static final String NORMAL_LOGLEVEL = " N ";
 	public static final int FIXED_LOGLIMIT = 5000000;
 	
-	public static final String SQL_ISENTITY_NAME_STORED = "select XMLSERIALIZE(xmlquery('//tamandare/body/signature' passing BY REF DOC_DATA EMPTY ON EMPTY) " +
-	"AS clob) " +
-	"FROM TAMANDARE.XMLDOCS " +
-	"WHERE XMLEXISTS ('//tamandare/body/signature[@entity = \"VAR\"]' passing BY REF DOC_DATA) ";
+	
+	
+	
 	
 	
 	

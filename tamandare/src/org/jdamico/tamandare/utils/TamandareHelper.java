@@ -45,8 +45,8 @@ public class TamandareHelper {
 		return sb.toString();
 	}
 
-	public String complexPacket2String(String addr, String type, String value){
-		return "{["+addr+"]:["+type+"]:["+value+"]}";
+	public String complexPacket2String(String toAddr, String type, String value, String fromAddr){
+		return "{["+toAddr+"]:["+type+"]:["+value+"]:["+fromAddr+"]}";
 	}
 	
 	public ComplexPacket string2ComplexPacket(String msg) throws TamandareException {
@@ -61,7 +61,7 @@ public class TamandareHelper {
 			count++;
 		}
 		
-		if(count==3) cp = new ComplexPacket(pcktSubG[0],pcktSubG[1],pcktSubG[2]);
+		if(count==4) cp = new ComplexPacket(pcktSubG[0],pcktSubG[1],pcktSubG[2],pcktSubG[3]);
 		else throw new TamandareException("Invalid protocol packet!");
 		
 		return cp;

@@ -45,8 +45,8 @@ public class TransactionManager {
 		return Derbymanager.getInstance().update(docId, xml);
 	}
 
-	public boolean isEntitystored(String signature) {
-		return Derbymanager.getInstance().isEntityStored(signature);
+	public boolean isEntitySignatureStored(String signature) {
+		return Derbymanager.getInstance().isEntitySignatureStored(signature);
 	}
 
 	public Map<Integer, String> getDocsByType(int docType, String docPath) {
