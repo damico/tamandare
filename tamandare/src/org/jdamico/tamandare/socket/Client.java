@@ -108,14 +108,14 @@ public class Client {
 		
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSignature(ComplexPacket cp, String entityName)");
 		
-		Socket jtopSocket = null;
+		Socket sendSignatureSocket = null;
 		PrintWriter out = null;
 		BufferedReader in = null;
 		int port = Constants.SOCKET_SERVER_PORT;
 		try {
-			jtopSocket = new Socket(cp.getAddr(), port);
-			out = new PrintWriter(jtopSocket.getOutputStream(), true);
-			in = new BufferedReader(new InputStreamReader(jtopSocket.getInputStream()));
+			sendSignatureSocket = new Socket(cp.getAddr(), port);
+			out = new PrintWriter(sendSignatureSocket.getOutputStream(), true);
+			in = new BufferedReader(new InputStreamReader(sendSignatureSocket.getInputStream()));
 		} catch (UnknownHostException e) {
 			throw new TamandareException("Don't know about host: "+cp.getAddr()+".");
 		} catch (IOException e) {
@@ -142,8 +142,10 @@ public class Client {
 		out.close();
 		in.close();
 
-		jtopSocket.close();
+		sendSignatureSocket.close();
 		cp.setSComplexPacket(fromServer);
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSignature response: "+fromServer);
 		
 		return cp;
 	}

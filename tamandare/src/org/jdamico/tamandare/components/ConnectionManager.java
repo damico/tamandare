@@ -72,7 +72,7 @@ public class ConnectionManager extends TamandareObjectManager {
 	
 	
 	public void sendSignature(String host, String entityName) throws IOException {
-		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSignature(String host, String entityName)");
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSignature("+host+","+entityName+")");
 		
 			ThreadRunnableManager trm = new ThreadRunnableManager();
 			trm.startSingatureProcess("sendSignature", host, entityName);
