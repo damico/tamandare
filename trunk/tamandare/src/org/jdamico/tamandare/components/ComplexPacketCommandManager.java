@@ -16,13 +16,18 @@ public class ComplexPacketCommandManager {
 	
 	public boolean areU(String value) throws TamandareException{
 		
-		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "areU(String value)");
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "areU(String "+value+")");
 		
 		boolean ret = false;
 		String whoami = ManageProperties.getInstance().read(Constants.WHO_AM_I).trim();
 		ComplexPacket cp = TamandareHelper.getInstance().string2ComplexPacket(value);
 		value = cp.getValue();
-		if(value.equals(whoami)) ret = true;
+		
+		boolean isEntityNameStored = EntityManager.getInstance().isEntityNameStored(value);
+		
+				
+		
+		if(value.equals(whoami) && isEntityNameStored) ret = true;
 
 		return ret;
 	}

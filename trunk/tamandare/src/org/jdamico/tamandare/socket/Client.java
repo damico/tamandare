@@ -150,7 +150,7 @@ public class Client {
 
 	public ComplexPacket sendSessionAcceptance(ComplexPacket cp) throws TamandareException, IOException {
 		
-		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSessionAcceptance(ComplexPacket cp)");
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSessionAcceptance(ComplexPacket cp): "+cp.getAddr());
 		
 		Socket clientSocket = null;
 		PrintWriter out = null;
@@ -160,6 +160,9 @@ public class Client {
 			clientSocket = new Socket(cp.getAddr(), port);
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			
+			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "handling session: "+cp.getAddr());
+			
 		} catch (UnknownHostException e) {
 			throw new TamandareException("Don't know about host: "+cp.getAddr()+".");
 		} catch (IOException e) {

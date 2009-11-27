@@ -83,4 +83,14 @@ public class EntityManager extends TamandareObjectManager {
 		TransactionManager transactionManager = new TransactionManager();
 		return transactionManager.getDocsByType(Constants.ENTITY, "//tamandare/body/signature/@entity");
 	}
+
+	public boolean isEntityNameStored(String value) {
+		TransactionManager transactionManager = new TransactionManager();
+		
+		boolean result = transactionManager.isEntityNameStored(value);
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "isEntityNameStored("+value+") ==> "+result);
+		
+		return result; 
+	}
 }

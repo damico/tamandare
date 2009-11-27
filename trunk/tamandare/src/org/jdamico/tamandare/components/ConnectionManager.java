@@ -32,6 +32,10 @@ public class ConnectionManager extends TamandareObjectManager {
 		if(socketReply.equals("!")){
 			
 			combo = areU(host, entityName);
+			
+			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Checking signature...");
+
+			
 			sendSignature(host, entityName);
 			
 		}else{

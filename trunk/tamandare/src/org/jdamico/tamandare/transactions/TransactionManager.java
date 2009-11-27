@@ -53,4 +53,8 @@ public class TransactionManager {
 		return Derbymanager.getInstance().getDocsByType(docType, docPath);
 	}
 
+	public boolean isEntityNameStored(String value) {
+		return Derbymanager.getInstance().isEntityNameStored(value);
+	}
+
 }
