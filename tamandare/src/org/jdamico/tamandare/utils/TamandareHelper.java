@@ -53,7 +53,7 @@ public class TamandareHelper {
 		msg = msg.substring(1,msg.length()-1);
 		ComplexPacket cp = null;
 		StringTokenizer st = new StringTokenizer(msg,":");
-		String[] pcktSubG = new String[3];
+		String[] pcktSubG = new String[4];
 		int count = 0;
 		while(st.hasMoreElements()){
 			String data =  st.nextToken();
