@@ -7,6 +7,8 @@ import org.jdamico.tamandare.exceptions.TamandareException;
 import org.jdamico.tamandare.socket.Client;
 import org.jdamico.tamandare.socket.ComplexPacket;
 import org.jdamico.tamandare.threads.ThreadRunnableManager;
+import org.jdamico.tamandare.utils.Constants;
+import org.jdamico.tamandare.utils.ManageProperties;
 
 public class ConnectionManager extends TamandareObjectManager {
 	private static ConnectionManager INSTANCE = null;
@@ -51,7 +53,7 @@ public class ConnectionManager extends TamandareObjectManager {
 		Combo combo = new Combo();
 		
 		Client  socketClient = new Client();
-		ComplexPacket cp = new ComplexPacket(host, "areU", entityName); 
+		ComplexPacket cp = new ComplexPacket(host, "areU", entityName, ManageProperties.getInstance().read(Constants.MY_ADDR)); 
 
 		try {
 			cp = socketClient.areU(cp, entityName);

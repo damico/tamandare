@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.jdamico.tamandare.socket.Client;
 import org.jdamico.tamandare.socket.ComplexPacket;
 import org.jdamico.tamandare.transactions.TransactionManager;
+import org.jdamico.tamandare.utils.Constants;
+import org.jdamico.tamandare.utils.ManageProperties;
 import org.jdamico.tamandare.utils.TamandareHelper;
 
 public class TagsHandShakeThread  implements Runnable {
@@ -39,11 +41,11 @@ public class TagsHandShakeThread  implements Runnable {
 			 * for each element of array start a thread to get each document thru the urlHash
 			 * if the hash is existent, and the tagsHash is different make a update of tags 
 			 */
-			boolean value = tm.isEntitystored(signature);
+			boolean value = tm.isEntitySignatureStored(signature);
 			
 			Client  socketClient = new Client();
 			
-			ComplexPacket cp = new ComplexPacket(host, threadName, String.valueOf(value)); 
+			ComplexPacket cp = new ComplexPacket(host, threadName, String.valueOf(value), ManageProperties.getInstance().read(Constants.MY_ADDR)); 
 				cp = socketClient.sendSessionAcceptance(cp);
 
 			

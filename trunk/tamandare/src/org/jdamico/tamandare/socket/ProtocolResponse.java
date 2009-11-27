@@ -14,7 +14,7 @@ private ComplexPacket complexPacket;
 	
 	
 	public ProtocolResponse(ComplexPacket complexPacket, int state) {
-		this.outputMessage = TamandareHelper.getInstance().complexPacket2String(complexPacket.getAddr(), complexPacket.getType(), complexPacket.getValue());
+		this.outputMessage = TamandareHelper.getInstance().complexPacket2String(complexPacket.getToAddr(), complexPacket.getType(), complexPacket.getValue(), complexPacket.getFromAddr());
 		this.state = state;
 	}
 

@@ -32,24 +32,24 @@ public class ComplexPacketCommandManager {
 		return ret;
 	}
 	
-	public void sendSignature(String sComplexPacket) throws TamandareException{
+	public String sendSignature(String sComplexPacket) throws TamandareException{
 
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSignature(String "+sComplexPacket+")");
 		
 		ComplexPacket cp = TamandareHelper.getInstance().string2ComplexPacket(sComplexPacket);
 		
 		ThreadRunnableManager trm = new ThreadRunnableManager();
-		trm.startSessionAcceptanceProcess("SessionAcceptance", cp.getAddr(), cp.getValue());
+		trm.startSessionAcceptanceProcess("SessionAcceptance", cp.getFromAddr(), cp.getValue());
 
-		
+		return "WAIT";
 	}
 	
-	public void sendSessionAcceptance(String sComplexPacket) throws TamandareException{
+	public String sendSessionAcceptance(String sComplexPacket) throws TamandareException{
 
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSessionAcceptance(String "+sComplexPacket+")");
 		ComplexPacket cp = TamandareHelper.getInstance().string2ComplexPacket(sComplexPacket);
 		LiveMemoryManager.setSessions(cp.getValue(), true);
 		
-		
+		return "true";
 	}
 }

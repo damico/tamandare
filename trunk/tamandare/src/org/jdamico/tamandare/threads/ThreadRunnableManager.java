@@ -5,6 +5,8 @@ import java.util.concurrent.Executors;
 
 import org.jdamico.tamandare.components.LoggerManager;
 
+import sun.awt.windows.ThemeReader;
+
 public class ThreadRunnableManager {
 	public void startSingatureProcess(String threadName, String host, String entityName ){
 		// create and name each runnable             

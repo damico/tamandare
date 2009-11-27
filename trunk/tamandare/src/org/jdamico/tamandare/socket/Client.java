@@ -62,18 +62,18 @@ public class Client {
 		
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "areU(ComplexPacket cp, String entityName)");
 		
-		Socket jtopSocket = null;
+		Socket clientSocket = null;
 		PrintWriter out = null;
 		BufferedReader in = null;
 		int port = Constants.SOCKET_SERVER_PORT;
 		try {
-			jtopSocket = new Socket(cp.getAddr(), port);
-			out = new PrintWriter(jtopSocket.getOutputStream(), true);
-			in = new BufferedReader(new InputStreamReader(jtopSocket.getInputStream()));
+			clientSocket = new Socket(cp.getToAddr(), port);
+			out = new PrintWriter(clientSocket.getOutputStream(), true);
+			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		} catch (UnknownHostException e) {
-			throw new TamandareException("Don't know about host: "+cp.getAddr()+".");
+			throw new TamandareException("Don't know about host: "+cp.getToAddr()+".");
 		} catch (IOException e) {
-			throw new TamandareException("Couldn't get I/O for the connection to: "+cp.getAddr()+".");
+			throw new TamandareException("Couldn't get I/O for the connection to: "+cp.getToAddr()+".");
 		}
 		
 		
@@ -96,7 +96,7 @@ public class Client {
 		out.close();
 		in.close();
 
-		jtopSocket.close();
+		clientSocket.close();
 		
 		
 		cp.setSComplexPacket(fromServer);
@@ -113,13 +113,13 @@ public class Client {
 		BufferedReader in = null;
 		int port = Constants.SOCKET_SERVER_PORT;
 		try {
-			sendSignatureSocket = new Socket(cp.getAddr(), port);
+			sendSignatureSocket = new Socket(cp.getToAddr(), port);
 			out = new PrintWriter(sendSignatureSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(sendSignatureSocket.getInputStream()));
 		} catch (UnknownHostException e) {
-			throw new TamandareException("Don't know about host: "+cp.getAddr()+".");
+			throw new TamandareException("Don't know about host: "+cp.getToAddr()+".");
 		} catch (IOException e) {
-			throw new TamandareException("Couldn't get I/O for the connection to: "+cp.getAddr()+".");
+			throw new TamandareException("Couldn't get I/O for the connection to: "+cp.getToAddr()+".");
 		}
 		
 		
@@ -152,23 +152,23 @@ public class Client {
 
 	public ComplexPacket sendSessionAcceptance(ComplexPacket cp) throws TamandareException, IOException {
 		
-		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSessionAcceptance(ComplexPacket cp): "+cp.getAddr());
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSessionAcceptance(ComplexPacket cp): "+cp.getToAddr());
 		
 		Socket clientSocket = null;
 		PrintWriter out = null;
 		BufferedReader in = null;
 		int port = Constants.SOCKET_SERVER_PORT;
 		try {
-			clientSocket = new Socket(cp.getAddr(), port);
+			clientSocket = new Socket(cp.getToAddr(), port);
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			
-			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "handling session: "+cp.getAddr());
+			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "handling session: "+cp.getToAddr());
 			
 		} catch (UnknownHostException e) {
-			throw new TamandareException("Don't know about host: "+cp.getAddr()+".");
+			throw new TamandareException("Don't know about host: "+cp.getToAddr()+".");
 		} catch (IOException e) {
-			throw new TamandareException("Couldn't get I/O for the connection to: "+cp.getAddr()+".");
+			throw new TamandareException("Couldn't get I/O for the connection to: "+cp.getToAddr()+".");
 		}
 		
 		
@@ -189,7 +189,7 @@ public class Client {
 		
 		cp.setValue(clientAddr.replaceAll("/", ""));
 		
-		String fromUser = TamandareHelper.getInstance().complexPacket2String(cp.getAddr(), cp.getType(), cp.getValue());
+		String fromUser = TamandareHelper.getInstance().complexPacket2String(cp.getToAddr(), cp.getType(), cp.getValue(), cp.getFromAddr());
 
 		int count = 0;
 		
@@ -225,13 +225,13 @@ public class Client {
 		BufferedReader in = null;
 		int port = Constants.SOCKET_SERVER_PORT;
 		try {
-			clientSocket = new Socket(cp.getAddr(), port);
+			clientSocket = new Socket(cp.getToAddr(), port);
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		} catch (UnknownHostException e) {
-			throw new TamandareException("Don't know about host: "+cp.getAddr()+".");
+			throw new TamandareException("Don't know about host: "+cp.getToAddr()+".");
 		} catch (IOException e) {
-			throw new TamandareException("Couldn't get I/O for the connection to: "+cp.getAddr()+".");
+			throw new TamandareException("Couldn't get I/O for the connection to: "+cp.getToAddr()+".");
 		}
 		
 		
@@ -239,7 +239,7 @@ public class Client {
 		
 		
 		String fromServer;
-		String fromUser = TamandareHelper.getInstance().complexPacket2String(cp.getAddr(), cp.getType(), cp.getValue());
+		String fromUser = TamandareHelper.getInstance().complexPacket2String(cp.getToAddr(), cp.getType(), cp.getValue(), cp.getFromAddr());
 
 		int count = 0;
 		

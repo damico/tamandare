@@ -37,7 +37,7 @@ public class EntityManager extends TamandareObjectManager {
 		
 			xml = Converter2XMLFactory.getConverter(Constants.ENTITY, entityObj).exec();
 			
-			if(!transactionManager.isEntitystored(entityObj.getBody().getSignature())){
+			if(!transactionManager.isEntitySignatureStored(entityObj.getBody().getSignature())){
 				transactionManager.saveDoc(xml, null, null);
 				combo.setXmlObj(entityObj);
 				combo.setXml(xml);

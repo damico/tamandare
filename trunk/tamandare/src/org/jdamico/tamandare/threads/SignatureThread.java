@@ -5,6 +5,8 @@ import org.jdamico.tamandare.exceptions.TamandareException;
 import org.jdamico.tamandare.socket.Client;
 import org.jdamico.tamandare.socket.ComplexPacket;
 import org.jdamico.tamandare.transactions.Derbymanager;
+import org.jdamico.tamandare.utils.Constants;
+import org.jdamico.tamandare.utils.ManageProperties;
 
 public class SignatureThread  implements Runnable {
 
@@ -33,7 +35,7 @@ public class SignatureThread  implements Runnable {
 			LiveMemoryManager.getInstance().setSessions(host, false);
 			
 			Client  socketClient = new Client();
-			ComplexPacket cp = new ComplexPacket(host, "sendSignature", signature); 
+			ComplexPacket cp = new ComplexPacket(host, "sendSignature", signature, ManageProperties.getInstance().read(Constants.MY_ADDR)); 
 			cp = socketClient.sendSignature(cp, entityName);
 				
 				//boolean ret = Boolean.valueOf(cp.getValue());
