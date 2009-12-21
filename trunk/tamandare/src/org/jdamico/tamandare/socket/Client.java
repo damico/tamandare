@@ -152,7 +152,7 @@ public class Client {
 
 	public ComplexPacket sendSessionAcceptance(ComplexPacket cp) throws TamandareException, IOException {
 		
-		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSessionAcceptance(ComplexPacket cp): "+cp.getToAddr());
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSessionAcceptance("+cp.getSComplexPacket()+"): "+cp.getToAddr());
 		
 		Socket clientSocket = null;
 		PrintWriter out = null;
