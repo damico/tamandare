@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 
+import org.jdamico.tamandare.components.LoggerManager;
 import org.jdamico.tamandare.exceptions.TamandareException;
 
 
@@ -33,6 +34,7 @@ public class ServerThread extends Thread {
 	    out.println(outputLine);
 
 	    while ((inputLine = in.readLine()) != null) {
+	    	LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Message *raw* from Client: "+inputLine);
 	    	outputLine = sp.processInput(inputLine);
 	    	out.println(outputLine);
 		if (outputLine.equals("Bye"))
