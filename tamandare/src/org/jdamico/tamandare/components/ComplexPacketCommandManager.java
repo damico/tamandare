@@ -39,7 +39,7 @@ public class ComplexPacketCommandManager {
 		ComplexPacket cp = TamandareHelper.getInstance().string2ComplexPacket(sComplexPacket);
 		
 		ThreadRunnableManager trm = new ThreadRunnableManager();
-		trm.startSessionAcceptanceProcess("sessionAcceptance", cp.getFromAddr(), cp.getValue());
+		trm.startSessionAcceptanceProcess("sendSessionAcceptance", cp.getFromAddr(), cp.getValue());
 
 		return "WAIT";
 	}
