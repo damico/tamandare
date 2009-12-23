@@ -11,6 +11,7 @@ public class JettyController implements Runnable {
 
 	private Server server = null;
 	private Thread t = null;
+	public static ServletHandler handler = new ServletHandler(); /* needs to be static to be used by ComplexPacketCommandManager.openRequest */
 	
 	public JettyController(){
 		int port = (Constants.WEB_SERVER_PORT);
@@ -19,7 +20,7 @@ public class JettyController implements Runnable {
 		connector.setPort(port);
 		server.setConnectors(new Connector[] { connector });
 
-		ServletHandler handler = new ServletHandler();
+		
 		server.setHandler(handler);
 
 		handler.addServletWithMapping("org.jdamico.tamandare.web.Home",	"/home");
