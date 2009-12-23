@@ -6,6 +6,7 @@ import org.jdamico.tamandare.threads.ThreadRunnableManager;
 import org.jdamico.tamandare.utils.Constants;
 import org.jdamico.tamandare.utils.ManageProperties;
 import org.jdamico.tamandare.utils.TamandareHelper;
+import org.jdamico.tamandare.web.JettyController;
 
 public class ComplexPacketCommandManager {
 	private static ComplexPacketCommandManager INSTANCE = null;
@@ -38,8 +39,7 @@ public class ComplexPacketCommandManager {
 		
 		ComplexPacket cp = TamandareHelper.getInstance().string2ComplexPacket(sComplexPacket);
 		
-		ThreadRunnableManager trm = new ThreadRunnableManager();
-		trm.startSessionAcceptanceProcess("sendSessionAcceptance", cp.getFromAddr(), cp.getValue());
+		ThreadRunnableManager.getInstance().startSessionAcceptanceProcess("sendSessionAcceptance", cp.getFromAddr(), cp.getValue());
 
 		return "WAIT";
 	}
@@ -49,6 +49,13 @@ public class ComplexPacketCommandManager {
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSessionAcceptance(String "+sComplexPacket+")");
 		ComplexPacket cp = TamandareHelper.getInstance().string2ComplexPacket(sComplexPacket);
 		LiveMemoryManager.setSessions(cp.getValue(), true);
+		
+		/*TODO:
+		 * Start a new thread to request the remote tags intersection and its urls
+		 */
+		
+		openRemoteRequest(); /* atomic */
+		ThreadRunnableManager.getInstance().sendMyTags(cp.getFromAddr()); 	/* thread to send my tags */
 		
 		return "true";
 	}
@@ -61,4 +68,11 @@ public class ComplexPacketCommandManager {
 		
 		return "false";
 	}
+	
+	public void openRemoteRequest(){
+		JettyController.handler.addServletWithMapping("org.jdamico.tamandare.web.RemoteRequest",	"/RemoteRequest");
+	}
+	
+	
+	
 }

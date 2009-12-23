@@ -5,9 +5,16 @@ import java.util.concurrent.Executors;
 
 import org.jdamico.tamandare.components.LoggerManager;
 
-import sun.awt.windows.ThemeReader;
-
 public class ThreadRunnableManager {
+	
+	
+	private static ThreadRunnableManager INSTANCE = null;
+	public static ThreadRunnableManager getInstance(){
+		if(INSTANCE == null) INSTANCE = new ThreadRunnableManager();
+		return INSTANCE;
+	}
+	
+	
 	public void startSingatureProcess(String threadName, String host, String entityName ){
 		// create and name each runnable             
 		
@@ -18,19 +25,9 @@ public class ThreadRunnableManager {
 
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Starting thread: "+threadName );
 
-		// create ExecutorService to manage threads                        
 		ExecutorService threadExecutor = Executors.newFixedThreadPool( 1 );
-
-		// start threads and place in runnable state   
-		threadExecutor.execute( thread ); // start task1
-		
-		if(threadExecutor.isTerminated()){
-			threadExecutor.shutdown(); // shutdown worker threads
-			
-		}
-
-		
-
+		threadExecutor.execute( thread ); 
+		if(threadExecutor.isTerminated()) threadExecutor.shutdown(); 
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Stopping thread: "+threadName );
 	}
 
@@ -43,20 +40,25 @@ public class ThreadRunnableManager {
 		
 
 
-				// create ExecutorService to manage threads                        
 		ExecutorService threadExecutor = Executors.newFixedThreadPool( 1 );
-
-		// start threads and place in runnable state   
-		threadExecutor.execute( thread ); // start task1
-		
-		if(threadExecutor.isTerminated()){
-			threadExecutor.shutdown(); // shutdown worker threads
-			
-		}
-
-		
-
+		threadExecutor.execute( thread ); 
+		if(threadExecutor.isTerminated()) threadExecutor.shutdown(); 
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Stopping thread: "+threadName );
 		
 	}
+
+
+	public void sendMyTags(String remotePeer) {
+		SendMyTagsThread thread = new SendMyTagsThread(remotePeer);
+		String threadName = "sendMyTags";
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Starting thread: "+threadName);
+		
+		ExecutorService threadExecutor = Executors.newFixedThreadPool( 1 );
+		threadExecutor.execute( thread ); 
+		if(threadExecutor.isTerminated()) threadExecutor.shutdown(); 
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Stopping thread: "+threadName );
+		
+	}
+	
+	
 }

@@ -9,6 +9,7 @@ public interface Constants {
 	public static final int ERROR = 1;
 	public static final int SYSMSG = 2;
 	public static final int ENTITY = 3;
+	public static final int TAGS = 4;
 	
 	public static final String DBPORT = "50000";
 	public static final String DBHOST = "127.0.0.1";
@@ -114,6 +115,21 @@ public interface Constants {
 	public static final String SEVERE_LOGLEVEL = " S ";
 	public static final String NORMAL_LOGLEVEL = " N ";
 	public static final int FIXED_LOGLIMIT = 5000000;
+	
+	public static final int HTML_TITLE = 1;
+	public static final int HTML_META = 2;
+	public static final int HTML_INNER_URLS = 3;
+	public static final int THREAD_BUSY = -2;
+	public static final int HTML_RAW = -1;
+	
+	
+	public static final String SQL_GET_URL_BY_STATUS_PG = "SELECT url FROM TAMANDARE.url WHERE status = ?";
+	public static final String SQL_SAVE_URL_PG = "INSERT INTO TAMANDARE.URL (url,status)VALUES(?,?)";
+	public static final String SQL_UPDATE_URL_BY_TITLE_PG = "UPDATE TAMANDARE.URL SET status = ?, title = ? WHERE url = ?";
+	public static final String SQL_UPDATE_URL_BY_META_PG = "UPDATE TAMANDARE.URL SET status = ?, keywords = ? WHERE url = ?";
+	public static final String SQL_UPDATE_URL_BY_STATUS_PG =  "UPDATE TAMANDARE.URL SET status = ? WHERE url = ?";
+	public static final String SQL_IS_URL_STORED_PG = "SELECT status FROM TAMANDARE.URL WHERE url = ?";
+	public static final String SQL_TOTAL_URL_STORED_PG = "SELECT count(url) FROM TAMANDARE.URL";
 	
 	
 	

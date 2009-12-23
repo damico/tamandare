@@ -20,7 +20,12 @@ public class SocketProtocol {
         if (state == WAITING) {
             theOutput = ":";
             state = OPEN;
+            
+            System.err.println("!!!!!!!!!!!!!!!!1");
+            
         } else {
+        	System.err.println("??????????????");
+        	
         	ProtocolResponse pr = parseMessage(theInput);
         	state = pr.getState();
         	theOutput = pr.getOutputMessage();
