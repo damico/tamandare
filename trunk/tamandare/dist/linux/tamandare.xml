@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tamandare xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="tamandare.xsd">
+  <header date="" type="0">
+    <return code="" message=""/>
+  </header>
+  <body>
+    <url value=""/>
+    <tags>tags</tags>
+    <signature entity="" type="">
+      <content>content</content>
+    </signature>
+  </body>
+</tamandare>
