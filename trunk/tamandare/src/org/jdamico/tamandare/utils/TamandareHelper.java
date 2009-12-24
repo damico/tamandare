@@ -39,8 +39,13 @@ public class TamandareHelper {
 	public String tagsArray2String(String[] tagsArray, boolean xml){
 		StringBuffer sb = new StringBuffer();
 		for(int i = 0; i < tagsArray.length; i++){
-			if(xml) sb.append("<tags>"+tagsArray[i]+"</tags>\n");
-			else sb.append(tagsArray[i]+" \n");
+			String e = tagsArray[i];
+			e = e.replaceAll("\n", "");
+			if(xml){
+				if(!e.equals("") && !e.equals(" ") && e!=null) sb.append("<tags>"+e+"</tags>\n");
+			}else{
+				if(!e.equals("<tags></tags>")) sb.append(e);
+			}
 		}
 		return sb.toString();
 	}

@@ -17,11 +17,16 @@ public class RequestBuilder {
 		return INSTANCE;
 	}
 	public void sendPost(String param, String xml, String host) throws TamandareException{
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendPost param: "+param);
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendPost xml: "+xml);
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendPost host: "+host);
+		
 		try {
 	        // Construct data
 	        String data = URLEncoder.encode(param, "UTF-8") + "=" + URLEncoder.encode(xml, "UTF-8");
 	        // Send data
-	        URL url = new URL("http://"+host+":8989/RemoteRequest");
+	        URL url = new URL("http://"+host+":8989/RemoteRequest?");
 	        URLConnection conn = url.openConnection();
 	        conn.setDoOutput(true);
 	        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
