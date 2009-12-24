@@ -73,23 +73,7 @@ public class XmlUtils {
 
 	}
 
-	public String buildTagsXml(ArrayList<String> tags) {
-		String tagsKey = "###TAGS###";
-		String tagsXml = 	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-							"	<tamandare xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"tamandare.xsd\">" +
-							"		  <header date=\"\" type=\""+Constants.TAGS+"\">" +
-							"		    <return code=\"0\" message=\"\"/>" +
-							"		  </header>" +
-							"		  <body>" +
-							"		    "+tagsKey+
-							"		  </body>" +
-							"	</tamandare>";
-		StringBuffer sb = new StringBuffer();
-		for(int i=0; i<tags.size(); i++){
-			sb.append(tags.get(i));
-		}
-		return tagsXml.replaceAll(tagsKey, sb.toString());
-	}
+	
 
 	
 

@@ -160,9 +160,7 @@ public class Home extends HttpServlet {
 		
 		Object[] keysArray = keys.toArray();
 		
-		for(int k = 0; k < keysArray.length; k++){
-			System.err.println("jose ============= "+(String)keysArray[k]);
-		}
+		
 		
 		
 		String bodyE = 	"<table width='100' border='0' align='center' cellpadding='8' cellspacing='8'><tr><td>" +

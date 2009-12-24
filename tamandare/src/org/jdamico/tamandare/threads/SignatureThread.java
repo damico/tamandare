@@ -28,9 +28,7 @@ public class SignatureThread  implements Runnable {
 			
 			
 			String signature = Derbymanager.getInstance().getSignature(entityName);
-			
-			System.err.println("-------------------> "+signature);
-			
+
 			
 			LiveMemoryManager.getInstance().setSessions(host, false);
 			
