@@ -76,7 +76,7 @@ public void startElement (String namespaceUri, String localName, String qualifie
 			
 		}else if(qualifiedName.equals(TAG_URL)){
 			activeTag = TAG_URL;
-			body.setEntityType(attributes.getValue("value"));
+			body.setUrl(attributes.getValue("value"));
 			isTagActive = true;
 			
 		}else if(qualifiedName.equals(TAG_TAGS)){

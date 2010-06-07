@@ -130,6 +130,7 @@ public interface Constants {
 	public static final String SQL_UPDATE_URL_BY_STATUS_PG =  "UPDATE TAMANDARE.URL SET status = ? WHERE url = ?";
 	public static final String SQL_IS_URL_STORED_PG = "SELECT status FROM TAMANDARE.URL WHERE url = ?";
 	public static final String SQL_TOTAL_URL_STORED_PG = "SELECT count(url) FROM TAMANDARE.URL";
+	public static final String TAMANDARE_LOG_FOLDER = "/var/log/tamandare/";
 	
 	
 	

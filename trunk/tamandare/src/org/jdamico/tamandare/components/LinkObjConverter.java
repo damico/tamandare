@@ -24,7 +24,7 @@ public class LinkObjConverter implements ObjConverters {
 			tObj = dp.getData();
 		} catch (SAXException e) {
 
-			
+			e.printStackTrace();
 			
 			throw new TamandareException(e.getStackTrace());
 			
