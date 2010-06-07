@@ -6,6 +6,14 @@
 Tamandare uses DB in two diferent layers:
 
  * Agent Layer
+  * The agent layer uses Derby, and is configuration must follow these steps:
+    # Download Derby from [http://db.apache.org/derby/releases/]
+    # Uncompress it under /opt/derby
+    # Set the Derby paths:
+{{{
+# export DERBY_HOME=/opt/derby/db-derby-10.6.1.0-bin
+# export PATH=$PATH:$DERBY_HOME/bin
+}}}
  * Scheduler Layer 
 
 = DB2 =
