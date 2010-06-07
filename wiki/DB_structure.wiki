@@ -14,6 +14,22 @@ Tamandare uses DB in two diferent layers:
 # export DERBY_HOME=/opt/derby/db-derby-10.6.1.0-bin
 # export PATH=$PATH:$DERBY_HOME/bin
 }}}
+    # enter into 'ij' environment:
+{{{
+# ij
+ij version 10.6
+ij> connect 'jdbc:derby:/home/YOURUSER/.tamandare/db;create=true';
+ij> run '/tmp/createTables.sql';
+ij> create table TAMANDARE.XMLDOCS (
+DOC_ID INT GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) 
+NOT NULL PRIMARY KEY, 
+DOC_DATA XML, 
+DOC_URL_HASH VARCHAR(255),
+DOC_TAGS_HASH VARCHAR(255),
+DOC_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT TIMESTAMP);
+0 rows inserted/updated/deleted
+ij> quit;
+}}}
  * Scheduler Layer 
 
 = DB2 =
