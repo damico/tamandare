@@ -14,7 +14,7 @@ Tamandare uses DB in two diferent layers:
 # export DERBY_HOME=/opt/derby/db-derby-10.6.1.0-bin
 # export PATH=$PATH:$DERBY_HOME/bin
 }}}
-    # enter into 'ij' environment:
+    # Enter into 'ij' environment:
 {{{
 # ij
 ij version 10.6
@@ -32,6 +32,7 @@ ij> disconnect;
 ij> quit;
 }}}
  * Scheduler Layer 
+   * The Scheduler layer uses DB2
 
 = DB2 =
 
