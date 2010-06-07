@@ -3,3 +3,5 @@
 
  * Avoid to develop in a machine that has FreeNet installed
  * Assure that ports 8888 and 8989 aren't been used by any service
+ * Make sure to follow the steps from this script [http://code.google.com/p/tamandare/source/browse/trunk/tamandare/dist/linux/install.sh]
+ * Follow the steps for Derby db creation from here: 
