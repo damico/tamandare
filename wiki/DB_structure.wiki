@@ -1,5 +1,13 @@
 #tables description
 
+
+= How Tamandare uses DB =
+
+Tamandare uses DB in two diferent layers:
+
+ * Agent Layer
+ * Scheduler Layer 
+
 = DB2 =
 
 == Schema ==
