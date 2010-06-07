@@ -50,7 +50,7 @@ public class LoggerManager {
 			
 				String fileName = Constants.LOG_NAME;
 				
-				fileName = Constants.TAMANDARE_FOLDER + fileName;
+				fileName = Constants.TAMANDARE_LOG_FOLDER + fileName;
 				
 				
 				String stime = getCurrentDateTimeFormated();

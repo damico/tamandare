@@ -83,6 +83,7 @@ public class Update extends HttpServlet {
 			StringBuffer sb = new StringBuffer();
 			String element = null;
 			for (int i = 0; i < arrayTags.length; i++) {
+				
 				element = arrayTags[i].replaceAll("\n", "");
 				sb.append(element + " ");
 			}
@@ -91,6 +92,8 @@ public class Update extends HttpServlet {
 			ret = ret.replaceAll("###URLHASH###", combo.getTagsHash());
 			ret = ret.replaceAll("###STRINGDOCID###", String.valueOf(combo.getDocId()));
 			ret = ret.replaceAll("###XML###", combo.getXml());
+			
+			
 			
 			String url = URLDecoder.decode(tObj.getBody().getUrl(), "UTF-8");
 
