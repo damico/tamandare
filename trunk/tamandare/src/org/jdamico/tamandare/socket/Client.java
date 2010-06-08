@@ -179,11 +179,7 @@ public class Client {
 		
 		
 		
-		if(Boolean.valueOf(cp.getValue())){
-			cp.setType("sendSessionAcceptance");
-		}else{
-			cp.setType("sendSessionDenied");
-		}
+		
 		
 		String clientAddr = clientSocket.getLocalAddress().toString(); 
 		
@@ -211,6 +207,12 @@ public class Client {
 		
 		
 		cp.setSComplexPacket(fromServer);
+		
+		
+		
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSessionAcceptance remote return: "+cp.getValue()+" | "+cp.getSComplexPacket());
+
 		
 		return cp;
 	}
