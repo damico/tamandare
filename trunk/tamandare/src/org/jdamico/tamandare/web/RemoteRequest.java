@@ -25,9 +25,9 @@ public class RemoteRequest extends HttpServlet {
 		 */
 		
 		
-		if(tags.charAt(0)=='<'){
+		if(tags!=null){
 			URLManager.getInstance().sendUrlsByTagsIntersection(tags, request.getRemoteAddr());
-		}else if(doc.charAt(0)=='<'){
+		}else if(doc!=null){
 			URLManager.getInstance().saveDocByXml(doc);
 		}else{
 			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "No valid parameter from remote agent");

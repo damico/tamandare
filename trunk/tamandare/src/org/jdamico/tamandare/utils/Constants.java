@@ -29,8 +29,8 @@ public interface Constants {
 																"WHERE XMLEXISTS('//tamandare/body/tags[contains(translate(.,\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"abcdefghijklmnopqrstuvwxyz\"),\"VAR\")]' passing BY REF DOC_DATA) ";
 
 
-	public static final String SQL_GETDOCS_BY_TAG_DERBY = "select DOC_URL_HASH, XMLSERIALIZE(xmlquery('string(//tamandare/body/url/@value)' passing BY REF DOC_DATA EMPTY ON EMPTY) " +
-	"AS clob) " +
+	public static final String SQL_GETDOCS_BY_TAG_DERBY = "select DOC_URL_HASH, XMLSERIALIZE(DOC_DATA " +
+	"AS clob ) " +
 	"FROM TAMANDARE.XMLDOCS " +
 	"WHERE XMLEXISTS('//tamandare/body/tags[contains(translate(.,\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"abcdefghijklmnopqrstuvwxyz\"),\"VAR\")]' passing BY REF DOC_DATA) ";
 
