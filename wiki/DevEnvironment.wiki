@@ -6,3 +6,4 @@
  * Make sure to follow the steps from this script [http://code.google.com/p/tamandare/source/browse/trunk/tamandare/dist/linux/install.sh]
  * Follow the steps for Derby db creation from here: [http://code.google.com/p/tamandare/wiki/DB_structure]
  * To make the local agent ON, run the class *org.jdamico.tamandare.utils.Launch*
+ * There are several interfaces for agent test. For the basic tests the better interface is the "social bookmark" interface. To access it open a browser pointing to [http://127.0.0.1:8989/home]
