@@ -1,45 +1,24 @@
 package org.jdamico.tamandare.threads;
 
-import java.util.ArrayList;
-import java.util.Date;
-
-import org.jdamico.tamandare.components.Converter2XMLFactory;
 import org.jdamico.tamandare.components.RequestBuilder;
-import org.jdamico.tamandare.dataobjects.TagsObject;
-import org.jdamico.tamandare.dataobjects.TamandareReturn;
 import org.jdamico.tamandare.exceptions.TamandareException;
-import org.jdamico.tamandare.transactions.Derbymanager;
-import org.jdamico.tamandare.utils.Constants;
 
 public class SendMyDocsThread implements Runnable {
 	private String remotePeer;
+	private String doc;
 	public SendMyDocsThread(String remotePeer, String doc) {
 		this.remotePeer = remotePeer;
+		this.doc = doc;
 	}
 
 	@Override
 	public void run() {
+			try {
+				RequestBuilder.getInstance().sendPost("doc", doc, remotePeer);
+			} catch (TamandareException e) {
+				e.printStackTrace();
+			}
 		
-		/* Get mytags */
-		
-		Derbymanager dm =  new Derbymanager(); /**/
-		
-		ArrayList<String> tags = dm.getTags();
-		
-		String[] tagsArray = new String[tags.size()];
-		for(int i=0; i<tags.size(); i++){
-			
-			tagsArray[i]=tags.get(i);
-		}
-	
-		TagsObject tagsObject = new TagsObject(tagsArray, new Date(), new TamandareReturn(0,"success"));
-		try {
-			String tagsXml = Converter2XMLFactory.getConverter(Constants.TAGS, tagsObject).exec();
-			RequestBuilder.getInstance().sendPost("tags", tagsXml, remotePeer);
-		} catch (TamandareException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 }

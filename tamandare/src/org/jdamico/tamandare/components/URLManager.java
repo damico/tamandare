@@ -193,5 +193,36 @@ public class URLManager extends TamandareObjectManager {
 		
 	}
 
+	public void saveDocByXml(String doc) {
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "saveDocByXml(String doc)");
+		Combo combo = new Combo();
+		
+
+		TransactionManager transactionManager = new TransactionManager();
+		try {
+			TamandareXMLObject tObj = Converter2ObjFactory.getConverter(Constants.LINK, doc).exec();
+			
+			HashManager hm = new HashManager();
+			String urlHash = hm.getHash(tObj.getBody().getUrl().trim());
+			String tags = TamandareHelper.getInstance().tagsArray2String(tObj.getBody().getTags(), false);
+			String tagsHash = hm.getHash(tags.trim());
+			if(!transactionManager.isURLstored(tObj.getBody())){
+				transactionManager.saveDoc(doc, urlHash, tagsHash);
+				combo.setXmlObj(tObj);
+				combo.setXml(doc);
+			}else{
+				/* builds an error xml with an inner exception */
+				combo = setErrorXML(new TamandareException(Constants.URL_ALREADY_ADDED), combo);
+			}
+			
+		} catch (TamandareException e) {
+
+			combo = setErrorXML(e, combo);
+		}
+		
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "combo.getXml() "+combo.getXml());
+				
+	}
+
 	
 }
