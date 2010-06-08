@@ -1,5 +1,6 @@
 package org.jdamico.tamandare.utils;
 
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import org.jdamico.tamandare.exceptions.TamandareException;
@@ -70,5 +71,24 @@ public class TamandareHelper {
 		else throw new TamandareException("Invalid protocol packet!");
 		
 		return cp;
+	}
+	
+	public ArrayList<String> stripTags(ArrayList<String> tagsArray){
+		String delimit = ";";
+		StringBuffer rawTags = new StringBuffer();
+		for(int i=0; i<tagsArray.size(); i++){
+			
+			String e = tagsArray.get(i).replaceAll("<tags>", delimit);
+			rawTags.append(e.replaceAll("</tags>", ""));
+			
+		}
+		
+		tagsArray.clear();
+		StringTokenizer st = new StringTokenizer(rawTags.toString(), delimit);
+		while(st.hasMoreElements()){
+			tagsArray.add((String) st.nextElement());
+		}
+		
+		return tagsArray;
 	}
 }

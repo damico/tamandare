@@ -90,6 +90,35 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 		return urls;
 	}
 
+	
+	
+	public Map<String, String> getDocsByTag(String tag) {
+		Map<String, String> docs = null;
+		PreparedStatement ps = null;
+		Connection con = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName(getClassfn());
+			con = DriverManager.getConnection(getDBurl());
+			String sql = Constants.SQL_GETDOCS_BY_TAG_DERBY.replaceAll("VAR", tag);
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			docs = new HashMap<String, String>();
+			while(rs.next()){
+				docs.put(rs.getString(1), rs.getString(2));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		return docs;
+	}
+	
 	public ArrayList<String> getTags() {
 		ArrayList<String> tags = null;
 		PreparedStatement ps = null;
