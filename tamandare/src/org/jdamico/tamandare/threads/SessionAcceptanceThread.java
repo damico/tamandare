@@ -1,5 +1,6 @@
 package org.jdamico.tamandare.threads;
 
+import org.jdamico.tamandare.components.ComplexPacketCommandManager;
 import org.jdamico.tamandare.components.LoggerManager;
 import org.jdamico.tamandare.socket.Client;
 import org.jdamico.tamandare.socket.ComplexPacket;
@@ -35,7 +36,9 @@ public class SessionAcceptanceThread  implements Runnable {
 			ComplexPacket cp = new ComplexPacket(host, threadName, host, ManageProperties.getInstance().read(Constants.MY_ADDR)); 
 				cp = socketClient.sendSessionAcceptance(cp);
 
-			
+				if(Boolean.valueOf(cp.getValue())){
+					ComplexPacketCommandManager.getInstance().openRemoteRequest();
+				}
 			
 				
 				//boolean ret = Boolean.valueOf(cp.getValue());
