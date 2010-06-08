@@ -18,6 +18,8 @@ public class RequestBuilder {
 	}
 	public void sendPost(String param, String xml, String host) throws TamandareException{
 		
+		
+		
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendPost param: "+param);
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendPost xml: "+xml);
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendPost host: "+host);

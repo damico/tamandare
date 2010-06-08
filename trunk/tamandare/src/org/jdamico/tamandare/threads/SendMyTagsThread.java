@@ -24,6 +24,10 @@ public class SendMyTagsThread implements Runnable {
 		
 		/* Get mytags */
 		
+		/* TODO: NEED TO CHECK IF THERE ARE TAGS, BEFORE SEND
+		 * 
+		 */
+		
 		Derbymanager dm =  new Derbymanager(); /**/
 		
 		ArrayList<String> tags = dm.getTags();
