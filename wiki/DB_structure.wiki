@@ -14,7 +14,7 @@ Tamandare uses DB in two diferent layers:
 # export DERBY_HOME=/opt/derby/db-derby-10.6.1.0-bin
 # export PATH=$PATH:$DERBY_HOME/bin
 }}}
-    # Enter into 'ij' environment:
+    # Enter into 'ij' environment (The file creatTables.sql can be found here [http://code.google.com/p/tamandare/source/browse/trunk/tamandare/sql/createTables.sql])
 {{{
 # ij
 ij version 10.6
