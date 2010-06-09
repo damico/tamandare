@@ -14,11 +14,14 @@ public class RemoteRequest extends HttpServlet {
 
 	private static final long serialVersionUID = -1475727896191265637L;
 	protected void doPost (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String tags = request.getParameter("tags");
 		String doc = request.getParameter("doc");
+		String back_doc = request.getParameter("back_doc");
 		
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(),"RECEIVED TAGS =============>>>> "+tags);
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(),"RECEIVED DOC =============>>>> "+doc);
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(),"RECEIVED BACK_DOC =============>>>> "+back_doc);
 		
 		/* TODO:
 		 * Calls bellow should be threads since beginning
@@ -28,7 +31,9 @@ public class RemoteRequest extends HttpServlet {
 		if(tags!=null){
 			URLManager.getInstance().sendUrlsByTagsIntersection(tags, request.getRemoteAddr());
 		}else if(doc!=null){
-			URLManager.getInstance().saveDocByXml(doc);
+			URLManager.getInstance().saveDocByXml(doc, null);
+		}else if(back_doc!=null){
+			URLManager.getInstance().saveDocByXml(back_doc, request.getRemoteAddr());
 		}else{
 			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "No valid parameter from remote agent");
 		}

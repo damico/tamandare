@@ -24,8 +24,9 @@ public class TransactionManager {
 		return Derbymanager.getInstance().isURLstored(urlHash);
 	}
 	
-	public boolean isURLstored(TamandareBody body) {
-		return Derbymanager.getInstance().isURLstored(body);
+	public boolean isURLstored(TamandareBody body) throws TamandareException {
+		Derbymanager dm = new Derbymanager();
+		return dm.isURLstored(body);
 	}
 
 	public void delete(int docid) {
