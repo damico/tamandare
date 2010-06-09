@@ -58,4 +58,8 @@ public class TransactionManager {
 		return Derbymanager.getInstance().isEntityNameStored(value);
 	}
 
+	public Map<String, String> getDocsByTag(String tag) {
+		return Derbymanager.getInstance().getDocsByTag(tag);
+	}
+	
 }

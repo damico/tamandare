@@ -17,11 +17,11 @@ public class RemoteRequest extends HttpServlet {
 		
 		String tags = request.getParameter("tags");
 		String doc = request.getParameter("doc");
-		String back_doc = request.getParameter("back_doc");
+		String back_tag = request.getParameter("back_tag");
 		
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(),"RECEIVED TAGS =============>>>> "+tags);
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(),"RECEIVED DOC =============>>>> "+doc);
-		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(),"RECEIVED BACK_DOC =============>>>> "+back_doc);
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(),"RECEIVED BACK_TAG =============>>>> "+back_tag);
 		
 		/* TODO:
 		 * Calls bellow should be threads since beginning
@@ -31,9 +31,9 @@ public class RemoteRequest extends HttpServlet {
 		if(tags!=null){
 			URLManager.getInstance().sendUrlsByTagsIntersection(tags, request.getRemoteAddr());
 		}else if(doc!=null){
-			URLManager.getInstance().saveDocByXml(doc, null);
-		}else if(back_doc!=null){
-			URLManager.getInstance().saveDocByXml(back_doc, request.getRemoteAddr());
+			URLManager.getInstance().saveDocByXml(doc);
+		}else if(back_tag!=null){
+			URLManager.getInstance().postDocByTag(back_tag, request.getRemoteAddr());
 		}else{
 			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "No valid parameter from remote agent");
 		}

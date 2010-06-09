@@ -3,7 +3,9 @@ package org.jdamico.tamandare.components;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.jdamico.tamandare.dataobjects.Combo;
@@ -188,14 +190,14 @@ public class URLManager extends TamandareObjectManager {
 			docsMap = Derbymanager.getInstance().getDocsByTag(intersectionTagsArray.get(i));
 		}
 		if(docsMap!=null) ThreadRunnableManager.getInstance().sendMyDocsThread(remotePeer, docsMap);
+		ThreadRunnableManager.getInstance().sendIntersectionTagsThread(remotePeer, intersectionTagsArray);
 		
-		System.out.println("remoteXmlTags: "+remoteXmlTags);
 		
 	}
 
-	public void saveDocByXml(String doc, String remoteAddr) {
+	public void saveDocByXml(String doc) {
 
-		if(remoteAddr == null){
+		
 			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "saveDocByXml(String doc)");
 			Combo combo = new Combo();
 			
@@ -226,13 +228,20 @@ public class URLManager extends TamandareObjectManager {
 			
 			
 			
-		}else{
-			
-			
-			
-		}
+		
 		
 						
+	}
+
+	public void postDocByTag(String backTag, String remotePeer) {
+		TransactionManager tm = new TransactionManager();
+		Map<String, String> backDocsMap = tm.getDocsByTag(backTag);
+		
+		
+		ThreadRunnableManager.getInstance().sendMyDocsThread(remotePeer, backDocsMap);
+		
+		
+		
 	}
 
 	
