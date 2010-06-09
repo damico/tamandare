@@ -182,46 +182,57 @@ public class URLManager extends TamandareObjectManager {
 		} catch (TamandareException e) {
 			e.printStackTrace();
 		}
-		
+		Map<String, String> docsMap = null;
 		ArrayList<String> intersectionTagsArray = getTagsByIntersection(tObj.getBody().getTags());
 		for(int i=0; i<intersectionTagsArray.size(); i++){
-			Map<String, String> docsMap = Derbymanager.getInstance().getDocsByTag(intersectionTagsArray.get(i));
-			
-			ThreadRunnableManager.getInstance().sendMyDocsThread(remotePeer, docsMap);
-			
+			docsMap = Derbymanager.getInstance().getDocsByTag(intersectionTagsArray.get(i));
 		}
+		if(docsMap!=null) ThreadRunnableManager.getInstance().sendMyDocsThread(remotePeer, docsMap);
+		
+		System.out.println("remoteXmlTags: "+remoteXmlTags);
 		
 	}
 
-	public void saveDocByXml(String doc) {
-		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "saveDocByXml(String doc)");
-		Combo combo = new Combo();
-		
+	public void saveDocByXml(String doc, String remoteAddr) {
 
-		TransactionManager transactionManager = new TransactionManager();
-		try {
-			TamandareXMLObject tObj = Converter2ObjFactory.getConverter(Constants.LINK, doc).exec();
+		if(remoteAddr == null){
+			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "saveDocByXml(String doc)");
+			Combo combo = new Combo();
 			
-			HashManager hm = new HashManager();
-			String urlHash = hm.getHash(tObj.getBody().getUrl().trim());
-			String tags = TamandareHelper.getInstance().tagsArray2String(tObj.getBody().getTags(), false);
-			String tagsHash = hm.getHash(tags.trim());
-			if(!transactionManager.isURLstored(tObj.getBody())){
-				transactionManager.saveDoc(doc, urlHash, tagsHash);
-				combo.setXmlObj(tObj);
-				combo.setXml(doc);
-			}else{
-				/* builds an error xml with an inner exception */
-				combo = setErrorXML(new TamandareException(Constants.URL_ALREADY_ADDED), combo);
+			TransactionManager transactionManager = new TransactionManager();
+			try {
+				TamandareXMLObject tObj = Converter2ObjFactory.getConverter(Constants.LINK, doc).exec();
+				
+				HashManager hm = new HashManager();
+				String urlHash = hm.getHash(tObj.getBody().getUrl().trim());
+				String tags = TamandareHelper.getInstance().tagsArray2String(tObj.getBody().getTags(), false);
+				String tagsHash = hm.getHash(tags.trim());
+				if(!transactionManager.isURLstored(urlHash)){
+					transactionManager.saveDoc(doc, urlHash, tagsHash);
+					combo.setXmlObj(tObj);
+					combo.setXml(doc);
+				}else{
+					/* builds an error xml with an inner exception */
+					combo = setErrorXML(new TamandareException(Constants.URL_ALREADY_ADDED), combo);
+				}
+				
+			} catch (TamandareException e) {
+
+				combo = setErrorXML(e, combo);
 			}
 			
-		} catch (TamandareException e) {
+			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "combo.getXml() "+combo.getXml());
 
-			combo = setErrorXML(e, combo);
+			
+			
+			
+		}else{
+			
+			
+			
 		}
 		
-		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "combo.getXml() "+combo.getXml());
-				
+						
 	}
 
 	

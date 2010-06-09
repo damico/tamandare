@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jdamico.tamandare.components.LoggerManager;
 import org.jdamico.tamandare.dataobjects.TamandareBody;
 import org.jdamico.tamandare.exceptions.TamandareException;
 import org.jdamico.tamandare.utils.Constants;
@@ -42,6 +43,7 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 			ps.executeUpdate();
 			ret = true;
 		} catch (SQLException e) {
+			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "xml: "+xml);
 			e.printStackTrace();
 			throw new TamandareException(e.getStackTrace(), e.getMessage());
 		} catch (ClassNotFoundException e) {
@@ -167,7 +169,7 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 		return isURLstored;
 	}
 
-	public boolean isURLstored(TamandareBody body) {
+	public boolean isURLstored(TamandareBody body) throws TamandareException {
 		boolean isURLstored = false;
 		String sql = Constants.SQL_ISURLSTORED.replaceAll("VAR", body.getUrl());
 		
@@ -184,12 +186,24 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 				isURLstored = true;
 			}
 		} catch (SQLException e) {
+			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "SQL: "+sql);
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		} finally {
+			
+				try {
+					if(rs!=null) rs.close();
+					if(ps!=null) ps.close();
+					if(con!=null) con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw new TamandareException(e.getStackTrace());
+				}
 		}
 		return isURLstored;
 	}
+
 	
 	public void delete(int docid) {
 		
