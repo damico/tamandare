@@ -3,8 +3,10 @@ package org.jdamico.tamandare.transactions;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.jdamico.tamandare.components.LoggerManager;
 import org.jdamico.tamandare.dataobjects.TamandareBody;
 import org.jdamico.tamandare.exceptions.TamandareException;
+import org.jdamico.tamandare.utils.Constants;
 
 public class TransactionManager {
 
@@ -60,6 +62,15 @@ public class TransactionManager {
 
 	public Map<String, String> getDocsByTag(String tag) {
 		return Derbymanager.getInstance().getDocsByTag(tag);
+	}
+	
+	public void checkDB() throws TamandareException{
+		ArrayList<String> schemas = Derbymanager.getInstance().getSchemas();
+		if(!schemas.contains(Constants.APP_SCHEMA)){
+			Derbymanager.getInstance().prepareDB();
+			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "DB not ready, creating basic table.");
+		}else LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "DB ready!");
+
 	}
 	
 }

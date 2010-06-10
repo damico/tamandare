@@ -139,6 +139,16 @@ public interface Constants {
 	public static final String SQL_IS_URL_STORED_PG = "SELECT status FROM TAMANDARE.URL WHERE url = ?";
 	public static final String SQL_TOTAL_URL_STORED_PG = "SELECT count(url) FROM TAMANDARE.URL";
 	public static final String TAMANDARE_LOG_FOLDER = "/var/log/tamandare/";
+	public static final String AGENT_NET_PATH = "/tmp/agentNet.conf";
+	
+	public static final String APP_SCHEMA = "TAMANDARE";
+	
+	public static final String SQL_PREPARE_DERBY =	"create table TAMANDARE.XMLDOCS (" +
+													"DOC_ID INT GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) NOT NULL PRIMARY KEY," +
+													"DOC_DATA XML," +
+													"DOC_URL_HASH VARCHAR(255)," +
+													"DOC_TAGS_HASH VARCHAR(255)," +
+													"DOC_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT TIMESTAMP)";
 	
 	
 	
