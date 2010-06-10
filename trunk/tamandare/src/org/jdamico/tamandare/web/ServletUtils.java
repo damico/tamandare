@@ -1,6 +1,7 @@
 package org.jdamico.tamandare.web;
 
 import org.jdamico.tamandare.utils.Constants;
+import org.jdamico.tamandare.utils.ManageProperties;
 
 public class ServletUtils {
 	private static ServletUtils INSTANCE = null;
@@ -32,7 +33,7 @@ public class ServletUtils {
 	
 	public String getHTMLHeader(String title){
 		String ret = 	"<html><head><title>"+title+"</title></head><body>\n" +
-						"<h1>"+title+"</h1><hr>\n";
+						"<h1>"+title+" @ "+ManageProperties.getInstance().read(Constants.AGENT_NET_PATH, Constants.MY_ADDR)+"</h1><hr>\n";
 		return ret;
 	}
 	

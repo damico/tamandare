@@ -406,6 +406,67 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 	}
 
 	
+	public ArrayList<String> getSchemas() throws TamandareException{
+		String sql = "select SCHEMANAME from SYS.SYSSCHEMAS";
+		ArrayList<String> schemas = new ArrayList<String>();
+		PreparedStatement ps = null;
+		Connection con = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName(getClassfn());
+			con = DriverManager.getConnection(getDBurl());
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				schemas.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "SQL: "+sql);
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			
+				try {
+					if(rs!=null) rs.close();
+					if(ps!=null) ps.close();
+					if(con!=null) con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw new TamandareException(e.getStackTrace());
+				}
+		}
+		return schemas;
+	}
+
+	public void prepareDB() throws TamandareException {
+		PreparedStatement ps = null;
+		Connection con = null;
 	
+		try {
+			Class.forName(getClassfn());
+			con = DriverManager.getConnection(getDBurl());
+			ps = con.prepareStatement(Constants.SQL_PREPARE_DERBY);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new TamandareException(e.getStackTrace(), e.getMessage());
+		} catch (ClassNotFoundException e) {
+			
+			throw new TamandareException(e.getStackTrace());
+		} catch (Exception e) {
+			
+			throw new TamandareException(e.getStackTrace());
+		} finally {
+			try {
+				if(ps!=null) ps.close();
+				if(con!=null) con.close();
+			} catch (SQLException e) {
+				throw new TamandareException(e.getStackTrace());
+			}
+		}
+		
+	}
 
 }

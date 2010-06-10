@@ -33,7 +33,7 @@ public class SignatureThread  implements Runnable {
 			LiveMemoryManager.getInstance().setSessions(host, false);
 			
 			Client  socketClient = new Client();
-			ComplexPacket cp = new ComplexPacket(host, "sendSignature", signature, ManageProperties.getInstance().read(Constants.MY_ADDR)); 
+			ComplexPacket cp = new ComplexPacket(host, "sendSignature", signature, ManageProperties.getInstance().read(Constants.AGENT_NET_PATH, Constants.MY_ADDR)); 
 			cp = socketClient.sendSignature(cp, entityName);
 				
 				//boolean ret = Boolean.valueOf(cp.getValue());

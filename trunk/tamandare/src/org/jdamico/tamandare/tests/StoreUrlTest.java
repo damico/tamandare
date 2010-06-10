@@ -28,7 +28,7 @@ public class StoreUrlTest extends TestCase {
 			xml = Converter2XMLFactory.getConverter(Constants.LINK, link).exec();
 			
 			if(!transactionManager.isURLstored(link.getBody().getUrl())){
-				ret = transactionManager.saveDoc(xml);
+				//ret = transactionManager.saveDoc(xml);
 			}else{
 				System.out.println("URL already stored!");
 			}

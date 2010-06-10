@@ -45,7 +45,7 @@ public class TagsHandShakeThread  implements Runnable {
 			
 			Client  socketClient = new Client();
 			
-			ComplexPacket cp = new ComplexPacket(host, threadName, String.valueOf(value), ManageProperties.getInstance().read(Constants.MY_ADDR)); 
+			ComplexPacket cp = new ComplexPacket(host, threadName, String.valueOf(value), ManageProperties.getInstance().read(Constants.AGENT_NET_PATH, Constants.MY_ADDR)); 
 				cp = socketClient.sendSessionAcceptance(cp);
 
 			

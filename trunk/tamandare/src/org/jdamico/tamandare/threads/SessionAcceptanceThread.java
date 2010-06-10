@@ -33,7 +33,7 @@ public class SessionAcceptanceThread  implements Runnable {
 			
 			Client  socketClient = new Client();
 			
-			ComplexPacket cp = new ComplexPacket(host, threadName, host, ManageProperties.getInstance().read(Constants.MY_ADDR)); 
+			ComplexPacket cp = new ComplexPacket(host, threadName, host, ManageProperties.getInstance().read(Constants.AGENT_NET_PATH, Constants.MY_ADDR)); 
 				cp = socketClient.sendSessionAcceptance(cp);
 
 				if(Boolean.valueOf(cp.getValue())){

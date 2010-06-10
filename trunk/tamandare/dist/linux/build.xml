@@ -3,20 +3,25 @@
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
     <target name="create_run_jar">
-        <jar destfile="/tmp/tamandare.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="/opt/tamandare/tamandare.jar" filesetmanifest="mergewithoutmain">
             <manifest>
-                <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="Main-Class" value="org.jdamico.tamandare.utils.Launch"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
             <fileset dir="/home/jdamico/workspace/tamandare/bin"/>
-            <zipfileset excludes="META-INF/*.SF" src="/home/jdamico/sws/eclipse/plugins/org.junit_3.8.2.v20080602-1318/junit.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jdamico/eclipse/plugins/org.junit_3.8.2.v20090203-1005/junit.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/home/jdamico/workspace/tamandare/lib/db2jcc_license_cu.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/home/jdamico/workspace/tamandare/lib/db2jcc.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/home/jdamico/workspace/tamandare/lib/jetty-6.1.0.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/home/jdamico/workspace/tamandare/lib/jetty-embedded-6.1.5.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/home/jdamico/workspace/tamandare/lib/jetty-util-6.1.0.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/home/jdamico/workspace/tamandare/lib/servlet-api-2.5.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jdamico/workspace/tamandare/lib/derby.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jdamico/workspace/tamandare/lib/derbyclient.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jdamico/workspace/tamandare/lib/xercesImpl.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jdamico/workspace/tamandare/lib/xml-apis.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jdamico/workspace/tamandare/lib/serializer.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jdamico/workspace/tamandare/lib/xalan.jar"/>
         </jar>
     </target>
 </project>

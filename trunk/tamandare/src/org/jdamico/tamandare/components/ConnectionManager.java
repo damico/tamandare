@@ -53,7 +53,7 @@ public class ConnectionManager extends TamandareObjectManager {
 		Combo combo = new Combo();
 		
 		Client  socketClient = new Client();
-		ComplexPacket cp = new ComplexPacket(host, "areU", entityName, ManageProperties.getInstance().read(Constants.MY_ADDR)); 
+		ComplexPacket cp = new ComplexPacket(host, "areU", entityName, ManageProperties.getInstance().read(Constants.AGENT_NET_PATH, Constants.MY_ADDR)); 
 
 		try {
 			cp = socketClient.areU(cp, entityName);
