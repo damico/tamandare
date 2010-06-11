@@ -16,6 +16,7 @@ public class TamandareException extends Exception {
 	public TamandareException(String message){
 		super(message);
 		this.message = message;
+		LoggerManager.getInstance().logAtExceptionTime(this.getClass().getName(), message);
 	}
 	
 	public TamandareException(String message, String className){
