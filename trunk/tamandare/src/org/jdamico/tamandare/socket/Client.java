@@ -220,7 +220,7 @@ public class Client {
 	
 	public ComplexPacket sendMyTags(ComplexPacket cp) throws TamandareException, IOException {
 		
-		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSessionAcceptance(ComplexPacket cp)");
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendMyTags(ComplexPacket cp)");
 		
 		Socket clientSocket = null;
 		PrintWriter out = null;

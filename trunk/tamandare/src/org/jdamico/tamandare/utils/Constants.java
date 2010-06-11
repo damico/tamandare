@@ -80,6 +80,11 @@ public interface Constants {
 	"FROM TAMANDARE.XMLDOCS " +
 	"WHERE XMLEXISTS ('//tamandare/body/signature[@entity = \"VAR\"]' passing BY REF DOC_DATA) ";
 	
+	public static final String SQL_GET_XML_BY_ENTITY_NAME = "select XMLSERIALIZE(DOC_DATA " +
+	"AS clob ) " +
+	"FROM TAMANDARE.XMLDOCS " +
+	"WHERE XMLEXISTS ('//tamandare/body/signature[@entity = \"VAR\"]' passing BY REF DOC_DATA) ";
+	
 	
 	/* App data */
 	

@@ -405,6 +405,40 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 		return isEntityStored;
 	}
 
+	public String getXMLbyEntityName(String entityName) throws TamandareException {
+		String xml = null;
+		String sql = Constants.SQL_GET_XML_BY_ENTITY_NAME.replaceAll("VAR", entityName);
+		
+		PreparedStatement ps = null;
+		Connection con = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName(getClassfn());
+			con = DriverManager.getConnection(getDBurl());
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				xml = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			LoggerManager.getInstance().logAtExceptionTime(this.getClass().getName(), "SQL: "+sql+" "+e.getMessage());
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			
+				try {
+					if(rs!=null) rs.close();
+					if(ps!=null) ps.close();
+					if(con!=null) con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw new TamandareException(e.getStackTrace());
+				}
+		}
+		return xml;
+	}
 	
 	public ArrayList<String> getSchemas() throws TamandareException{
 		String sql = "select SCHEMANAME from SYS.SYSSCHEMAS";

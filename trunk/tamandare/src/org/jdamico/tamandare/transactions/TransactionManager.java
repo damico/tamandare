@@ -3,8 +3,10 @@ package org.jdamico.tamandare.transactions;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.jdamico.tamandare.components.Converter2ObjFactory;
 import org.jdamico.tamandare.components.LoggerManager;
 import org.jdamico.tamandare.dataobjects.TamandareBody;
+import org.jdamico.tamandare.dataobjects.TamandareXMLObject;
 import org.jdamico.tamandare.exceptions.TamandareException;
 import org.jdamico.tamandare.utils.Constants;
 
@@ -71,6 +73,30 @@ public class TransactionManager {
 			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "DB not ready, creating basic table.");
 		}else LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "DB ready!");
 
+	}
+
+	public TamandareXMLObject getDocByEntityName(String entityName) {
+		TamandareXMLObject tObj = null;
+		try {
+			String xml = Derbymanager.getInstance().getXMLbyEntityName(entityName);
+			tObj = Converter2ObjFactory.getConverter(Constants.LINK, xml).exec();
+		} catch (TamandareException e) {
+			LoggerManager.getInstance().logAtExceptionTime(this.getClass().getName(), e.getMessage());
+			e.printStackTrace();
+		}
+		return tObj;
+	}
+	
+	public boolean isMachine(TamandareXMLObject tObj){
+		boolean ret = false;
+		if(tObj.getBody().getEntityType().equalsIgnoreCase("machine")) ret = true;
+		return ret;
+	}
+	
+	public boolean isMachine(String entityName){
+		boolean ret = false;
+		ret= isMachine(getDocByEntityName(entityName));
+		return ret;
 	}
 	
 }
