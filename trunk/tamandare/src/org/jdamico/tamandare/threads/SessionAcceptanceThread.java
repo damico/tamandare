@@ -65,6 +65,7 @@ public class SessionAcceptanceThread  implements Runnable {
 
 		catch ( Exception exception )
 		{
+			LoggerManager.getInstance().logAtExceptionTime(this.getClass().getName(), exception.getMessage());
 			exception.printStackTrace();
 		} 
 
