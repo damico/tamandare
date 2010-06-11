@@ -42,7 +42,9 @@ public class SessionAcceptanceThread  implements Runnable {
 
 			
 			/* get my signature based on prop 'whoami' */
-			if(tm.isMachine(ManageProperties.getInstance().read(Constants.WHO_AM_I))) threadName = "sendMachineSessionAcceptance";
+			if(tm.isMachine(ManageProperties.getInstance().read(Constants.WHO_AM_I))){
+				threadName = "sendMachineSessionAcceptance";
+			}
 			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sending: "+threadName);
 
 			ComplexPacket cp = new ComplexPacket(host, threadName, host, ManageProperties.getInstance().read(Constants.AGENT_NET_PATH, Constants.MY_ADDR)); 
