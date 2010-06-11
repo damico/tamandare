@@ -51,6 +51,7 @@ public class LinkDataProcessor extends DefaultHandler implements DefaultDataProc
 	public static final String TAG_URL = "url";
 	public static final String TAG_BODY = "body";
 	public static final String TAG_TAGS = "tags";
+	public static final String TAG_SIGNATURES = "signature";
 	
 	
 public void startElement (String namespaceUri, String localName, String qualifiedName, Attributes attributes) {
@@ -83,6 +84,11 @@ public void startElement (String namespaceUri, String localName, String qualifie
 			activeTag = TAG_TAGS;
 			isTagActive = true;
 			
+		}else if(qualifiedName.equals(TAG_SIGNATURES)){
+			activeTag = TAG_SIGNATURES;
+			body.setEntity(attributes.getValue("entity"));
+			isTagActive = true;
+			
 		}else{
 			isTagActive = false;
 			buffer = null;
@@ -110,8 +116,7 @@ public void startElement (String namespaceUri, String localName, String qualifie
 				tagArrayList.add(buffer.toString());
 			}
 			buffer = null;
-		
-		}
+		} 
 		
 	}
 	
