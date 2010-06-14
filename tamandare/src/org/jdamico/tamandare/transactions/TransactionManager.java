@@ -11,6 +11,7 @@ import org.jdamico.tamandare.dataobjects.TamandareBody;
 import org.jdamico.tamandare.dataobjects.TamandareXMLObject;
 import org.jdamico.tamandare.exceptions.TamandareException;
 import org.jdamico.tamandare.utils.Constants;
+import org.jdamico.tamandare.utils.TamandareHelper;
 
 public class TransactionManager {
 
@@ -27,8 +28,9 @@ public class TransactionManager {
 		Derbymanager dm =  new Derbymanager();
 		try {
 			ret = dm.getTags();
+			ret = TamandareHelper.getInstance().stripTags(ret);
+			ret = TamandareHelper.getInstance().putTags(ret);
 		} catch (TamandareException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return ret;

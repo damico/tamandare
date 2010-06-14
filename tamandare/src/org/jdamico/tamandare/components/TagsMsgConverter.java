@@ -32,8 +32,10 @@ public class TagsMsgConverter implements XMLConverters {
 		"<header date=\""+ strDate +"\" type =\""+xmlObj.getHeader().getType()+"\" >\n" +
 		"<return code =\""+xmlObj.getHeader().getMessageReturn().getReturnCode()+"\" message=\""+xmlObj.getHeader().getMessageReturn().getReturnMsg()+"\" />\n" +
 		"</header>\n" +
-		"<body>\n" +
+		"<body> \n" +
+		
 		tags +
+		"<signature entity='null' type='machine'></signature>\n" +
 		"</body>\n" +
 		"</tamandare>";
 
