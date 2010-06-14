@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.jdamico.tamandare.components.ConnectionManager;
 import org.jdamico.tamandare.components.LoggerManager;
 import org.jdamico.tamandare.dataobjects.Combo;
+import org.jdamico.tamandare.threads.ThreadRunnableManager;
 import org.jdamico.tamandare.transactions.TransactionManager;
 
 public class Connection extends HttpServlet {
@@ -56,4 +57,12 @@ public class Connection extends HttpServlet {
 		}
 		out.close();
 	}
+	
+	protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ThreadRunnableManager.getInstance().privateNetSyncThread();
+		PrintWriter out = response.getWriter();
+		out.println(ServletUtils.getInstance().jsRedirect("home?msg=Sync started."));
+		out.close();
+	}
+
 }
