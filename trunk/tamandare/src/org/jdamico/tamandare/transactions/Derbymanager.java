@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jdamico.tamandare.components.LoggerManager;
+import org.jdamico.tamandare.dataobjects.HistoryConnection;
 import org.jdamico.tamandare.dataobjects.TamandareBody;
 import org.jdamico.tamandare.exceptions.TamandareException;
 import org.jdamico.tamandare.utils.Constants;
@@ -22,17 +23,17 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 	public static Derbymanager getInstance(){
 		return INSTANCE;
 	}
-	
+
 	/*
 	 * xmldocs
 	 * entity
 	 * */
-		
+
 	public boolean saveDocument(String xml, String urlHash, String tagsHash) throws TamandareException  {
 		boolean ret = false;
 		PreparedStatement ps = null;
 		Connection con = null;
-	
+
 		try {
 			Class.forName(getClassfn());
 			con = DriverManager.getConnection(getDBurl());
@@ -47,10 +48,10 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 			e.printStackTrace();
 			throw new TamandareException(e.getStackTrace(), e.getMessage());
 		} catch (ClassNotFoundException e) {
-			
+
 			throw new TamandareException(e.getStackTrace());
 		} catch (Exception e) {
-			
+
 			throw new TamandareException(e.getStackTrace());
 		} finally {
 			try {
@@ -60,7 +61,7 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 				throw new TamandareException(e.getStackTrace());
 			}
 		}
-		
+
 		return ret;
 	}
 
@@ -86,24 +87,24 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
+
+
+
 		return urls;
 	}
 
-	
-	
-	public Map<String, String> getDocsByTag(String tag) {
+
+
+	public Map<String, String> getDocsByTag(String tag) throws TamandareException {
 		Map<String, String> docs = null;
 		PreparedStatement ps = null;
 		Connection con = null;
 		ResultSet rs = null;
-
+		String sql = Constants.SQL_GETDOCS_BY_TAG_DERBY.replaceAll("VAR", tag);
 		try {
 			Class.forName(getClassfn());
 			con = DriverManager.getConnection(getDBurl());
-			String sql = Constants.SQL_GETDOCS_BY_TAG_DERBY.replaceAll("VAR", tag);
+
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			docs = new HashMap<String, String>();
@@ -111,17 +112,27 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 				docs.put(rs.getString(1), rs.getString(2));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LoggerManager.getInstance().logAtExceptionTime(this.getClass().getName(), "SQL: "+sql+" > "+e.getMessage());
+
+			
+				System.err.println(e.getMessage());
+			
+
+
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		}finally{
+			try { if(rs!=null) rs.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(ps!=null) ps.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(con!=null) con.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
 		}
-		
-		
-		
+
+
+
 		return docs;
 	}
-	
-	public ArrayList<String> getTags() {
+
+	public ArrayList<String> getTags() throws TamandareException {
 		ArrayList<String> tags = null;
 		PreparedStatement ps = null;
 		Connection con = null;
@@ -137,16 +148,22 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 				tags.add(rs.getString(1));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+			LoggerManager.getInstance().logAtExceptionTime(this.getClass().getName(), "SQL: "+Constants.SQL_GETDOCS_BY_TAGS_DERBY+" > "+e.getMessage());
 			
-			e.printStackTrace();
+				System.err.println(e.getMessage());
+			
+		} catch (ClassNotFoundException e) {
+			throw new TamandareException(e.getStackTrace());
+		}finally{
+			try { if(rs!=null) rs.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(ps!=null) ps.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(con!=null) con.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
 		}
 		return tags;
 	}
 
 	public boolean isURLstored(String urlHash) {
-		
+
 		boolean isURLstored = false;
 		PreparedStatement ps = null;
 		Connection con = null;
@@ -172,7 +189,7 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 	public boolean isURLstored(TamandareBody body) throws TamandareException {
 		boolean isURLstored = false;
 		String sql = Constants.SQL_ISURLSTORED.replaceAll("VAR", body.getUrl());
-		
+
 		PreparedStatement ps = null;
 		Connection con = null;
 		ResultSet rs = null;
@@ -186,27 +203,27 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 				isURLstored = true;
 			}
 		} catch (SQLException e) {
-			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "SQL: "+sql);
+			LoggerManager.getInstance().logAtExceptionTime(this.getClass().getName(), "SQL: "+sql);
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
-			
-				try {
-					if(rs!=null) rs.close();
-					if(ps!=null) ps.close();
-					if(con!=null) con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-					throw new TamandareException(e.getStackTrace());
-				}
+
+			try {
+				if(rs!=null) rs.close();
+				if(ps!=null) ps.close();
+				if(con!=null) con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new TamandareException(e.getStackTrace());
+			}
 		}
 		return isURLstored;
 	}
 
-	
+
 	public void delete(int docid) {
-		
+
 		PreparedStatement ps = null;
 		Connection con = null;
 
@@ -221,8 +238,8 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
 
 	public ArrayList<String> getTagsById(int id) {
@@ -244,7 +261,7 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			
+
 			e.printStackTrace();
 		}
 		return tags;
@@ -262,7 +279,7 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 			ps = con.prepareStatement(Constants.SQL_GETDOCS_BY_DOC_BY_ID_DERBY);
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
-			
+
 			while(rs.next()){
 				ret[0] = rs.getString(1);
 				ret[1] = rs.getString(2);
@@ -271,16 +288,16 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			
+
 			e.printStackTrace();
 		}
 		return ret;
 	}
 
 	public boolean update(int docId, String xml) throws TamandareException {
-		
+
 		boolean ret = false;
-		
+
 		PreparedStatement ps = null;
 		Connection con = null;
 
@@ -303,7 +320,7 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 	public boolean isEntitySignatureStored(String signature) {
 		boolean isEntityStored = false;
 		String sql = Constants.SQL_ISENTITY_SIGNATURE_STORED.replaceAll("VAR", signature);
-		
+
 
 		PreparedStatement ps = null;
 		Connection con = null;
@@ -336,8 +353,8 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 			con = DriverManager.getConnection(getDBurl());
 			String sql = Constants.SQL_GETDOCS_BY_DOCTYPE_DERBY.replaceAll("VAR1", String.valueOf(docType));
 			sql = sql.replaceAll("VAR2", outputPath);
-			
-			
+
+
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			entities = new HashMap<Integer, String>();
@@ -350,9 +367,9 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
+
+
+
 		return entities;
 	}
 
@@ -367,24 +384,24 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 			con = DriverManager.getConnection(getDBurl());
 			ps = con.prepareStatement(Constants.SQL_GET_SIGNATURE_BY_ENTITYNAME_DERBY.replaceAll("VAR1", entityName));
 			rs = ps.executeQuery();
-			
+
 			while(rs.next()){
 				ret = rs.getString(2);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			
+
 			e.printStackTrace();
 		}
 		return ret;
-		
+
 	}
 
 	public boolean isEntityNameStored(String value) {
 		boolean isEntityStored = false;
 		String sql = Constants.SQL_ISENTITY_NAME_STORED.replaceAll("VAR", value);
-		
+
 		PreparedStatement ps = null;
 		Connection con = null;
 		ResultSet rs = null;
@@ -408,7 +425,7 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 	public String getXMLbyEntityName(String entityName) throws TamandareException {
 		String xml = null;
 		String sql = Constants.SQL_GET_XML_BY_ENTITY_NAME.replaceAll("VAR", entityName);
-		
+
 		PreparedStatement ps = null;
 		Connection con = null;
 		ResultSet rs = null;
@@ -427,19 +444,19 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
-			
-				try {
-					if(rs!=null) rs.close();
-					if(ps!=null) ps.close();
-					if(con!=null) con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-					throw new TamandareException(e.getStackTrace());
-				}
+
+			try {
+				if(rs!=null) rs.close();
+				if(ps!=null) ps.close();
+				if(con!=null) con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new TamandareException(e.getStackTrace());
+			}
 		}
 		return xml;
 	}
-	
+
 	public ArrayList<String> getSchemas() throws TamandareException{
 		String sql = "select SCHEMANAME from SYS.SYSSCHEMAS";
 		ArrayList<String> schemas = new ArrayList<String>();
@@ -461,46 +478,134 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
-			
-				try {
-					if(rs!=null) rs.close();
-					if(ps!=null) ps.close();
-					if(con!=null) con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-					throw new TamandareException(e.getStackTrace());
-				}
+
+			try {
+				if(rs!=null) rs.close();
+				if(ps!=null) ps.close();
+				if(con!=null) con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new TamandareException(e.getStackTrace());
+			}
 		}
 		return schemas;
 	}
 
-	public void prepareDB() throws TamandareException {
+	public void prepareDB(String sql) throws TamandareException {
 		PreparedStatement ps = null;
 		Connection con = null;
-	
+
 		try {
 			Class.forName(getClassfn());
 			con = DriverManager.getConnection(getDBurl());
-			ps = con.prepareStatement(Constants.SQL_PREPARE_DERBY);
+			ps = con.prepareStatement(sql);
 			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new TamandareException(e.getStackTrace(), sql+" > "+e.getMessage());
+		} catch (ClassNotFoundException e) {
+
+			throw new TamandareException(e.getStackTrace());
+		} catch (Exception e) {
+
+			throw new TamandareException(e.getStackTrace());
+		} finally {
+			try { if(ps!=null) ps.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(con!=null) con.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+		}
+
+	}
+
+	public void saveInHistoryConn(String host, String entityName) throws TamandareException, java.sql.SQLIntegrityConstraintViolationException {
+		PreparedStatement ps = null;
+		Connection con = null;
+
+		try {
+			Class.forName(getClassfn());
+			con = DriverManager.getConnection(getDBurl());
+			ps = con.prepareStatement(Constants.SQL_SAVE_HISTORYCONN_DERBY);
+			ps.setString(1, host);
+			ps.setString(2, entityName);
+			ps.executeUpdate();
+		
+		} catch (SQLException e) {
+			throw new TamandareException(e.getStackTrace(), e.getMessage());
+		} catch (ClassNotFoundException e) {
+
+			throw new TamandareException(e.getStackTrace());
+		} catch (Exception e) {
+
+			throw new TamandareException(e.getStackTrace());
+		} finally {
+
+			try { if(ps!=null) ps.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(con!=null) con.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+
+		}
+
+	}
+
+	public ArrayList<String> getExistentTables() throws TamandareException {
+
+		ArrayList<String> existentTables = new ArrayList<String>(Constants.DEFAULT_TABLES.length);
+
+		PreparedStatement ps = null;
+		Connection con = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName(getClassfn());
+			con = DriverManager.getConnection(getDBurl());
+			ps = con.prepareStatement(Constants.SQL_GET_TABLES_DERBY);
+			ps.setString(1, Constants.APP_SCHEMA);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				existentTables.add(rs.getString(1));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new TamandareException(e.getStackTrace(), e.getMessage());
 		} catch (ClassNotFoundException e) {
-			
+
 			throw new TamandareException(e.getStackTrace());
 		} catch (Exception e) {
-			
+
 			throw new TamandareException(e.getStackTrace());
 		} finally {
-			try {
-				if(ps!=null) ps.close();
-				if(con!=null) con.close();
-			} catch (SQLException e) {
-				throw new TamandareException(e.getStackTrace());
-			}
+			try { if(rs!=null) rs.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(ps!=null) ps.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(con!=null) con.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
 		}
-		
+		return existentTables;
 	}
 
+	public ArrayList<HistoryConnection> getHistoryConn() throws TamandareException {
+		ArrayList<HistoryConnection> ret = new ArrayList<HistoryConnection>();
+
+		PreparedStatement ps = null;
+		Connection con = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName(getClassfn());
+			con = DriverManager.getConnection(getDBurl());
+			ps = con.prepareStatement(Constants.SQL_GET_HISTORYCONN_DERBY);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				ret.add(new HistoryConnection(rs.getString(1), rs.getString(2)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new TamandareException(e.getStackTrace(), e.getMessage());
+		} catch (ClassNotFoundException e) {
+			throw new TamandareException(e.getStackTrace());
+		} catch (Exception e) {
+			throw new TamandareException(e.getStackTrace());
+		} finally {
+			try { if(rs!=null) rs.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(ps!=null) ps.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(con!=null) con.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+		}
+		return ret;
+	}
 }

@@ -10,6 +10,7 @@ import org.jdamico.tamandare.dataobjects.TagsObject;
 import org.jdamico.tamandare.dataobjects.TamandareReturn;
 import org.jdamico.tamandare.exceptions.TamandareException;
 import org.jdamico.tamandare.transactions.Derbymanager;
+import org.jdamico.tamandare.transactions.TransactionManager;
 import org.jdamico.tamandare.utils.Constants;
 import org.jdamico.tamandare.utils.XmlUtils;
 
@@ -28,9 +29,9 @@ public class SendMyTagsThread implements Runnable {
 		 * 
 		 */
 		
-		Derbymanager dm =  new Derbymanager(); /**/
+		TransactionManager tm = new TransactionManager(); /**/
 		
-		ArrayList<String> tags = dm.getTags();
+		ArrayList<String> tags = tm.getTags();
 		
 		String[] tagsArray = new String[tags.size()];
 		for(int i=0; i<tags.size(); i++){

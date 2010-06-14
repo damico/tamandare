@@ -3,9 +3,7 @@ package org.jdamico.tamandare.components;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.jdamico.tamandare.dataobjects.Combo;
@@ -13,9 +11,7 @@ import org.jdamico.tamandare.dataobjects.LinkObject;
 import org.jdamico.tamandare.dataobjects.TamandareReturn;
 import org.jdamico.tamandare.dataobjects.TamandareXMLObject;
 import org.jdamico.tamandare.exceptions.TamandareException;
-import org.jdamico.tamandare.threads.SendMyDocsThread;
 import org.jdamico.tamandare.threads.ThreadRunnableManager;
-import org.jdamico.tamandare.transactions.Derbymanager;
 import org.jdamico.tamandare.transactions.TransactionManager;
 import org.jdamico.tamandare.utils.Constants;
 import org.jdamico.tamandare.utils.HashManager;
@@ -179,6 +175,7 @@ public class URLManager extends TamandareObjectManager {
 
 	public void sendUrlsByTagsIntersection(String remoteXmlTags, String remotePeer) {
 		TamandareXMLObject tObj = null;
+		TransactionManager tm = new TransactionManager();
 		try {
 			tObj = Converter2ObjFactory.getConverter(Constants.LINK, remoteXmlTags).exec();
 		} catch (TamandareException e) {
@@ -187,7 +184,7 @@ public class URLManager extends TamandareObjectManager {
 		Map<String, String> docsMap = null;
 		ArrayList<String> intersectionTagsArray = getTagsByIntersection(tObj.getBody().getTags());
 		for(int i=0; i<intersectionTagsArray.size(); i++){
-			docsMap = Derbymanager.getInstance().getDocsByTag(intersectionTagsArray.get(i));
+			docsMap = tm.getDocsByTag(intersectionTagsArray.get(i));
 		}
 		if(docsMap!=null) ThreadRunnableManager.getInstance().sendMyDocsThread(remotePeer, docsMap);
 		ThreadRunnableManager.getInstance().sendIntersectionTagsThread(remotePeer, intersectionTagsArray);

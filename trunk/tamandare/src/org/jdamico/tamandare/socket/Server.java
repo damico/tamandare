@@ -13,7 +13,6 @@ public class Server {
         boolean listening = true;
         int port = Constants.SOCKET_SERVER_PORT;
         try {
-        	
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
             System.err.println("Could not listen on port: "+port+".");
