@@ -87,6 +87,7 @@ public void startElement (String namespaceUri, String localName, String qualifie
 		}else if(qualifiedName.equals(TAG_SIGNATURES)){
 			activeTag = TAG_SIGNATURES;
 			body.setEntity(attributes.getValue("entity"));
+			body.setEntityType(attributes.getValue("type"));
 			isTagActive = true;
 			
 		}else{

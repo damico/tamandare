@@ -69,7 +69,7 @@ public class Home extends HttpServlet {
 	private String bodyC = 	"<form method = 'post' action = 'initConn'>" +
 	"<table width = \"400\" align = \"center\" cellpadding = '10' cellspacing = '0'>\n"+
 	"<tr valign = 'top' bgcolor='#99B8FF' valign='top'>\n"+
-	"<td><b><font color='WHITE'>Connect</font></b></td><td><b><font color='WHITE'><center>&nbsp</center></font></b></td>\n"+
+	"<td><b><font color='WHITE'>Connect</font></b></td> <td> <div align='right'> <input type='button' name='snow' value='Sync Now!' onclick='syncNow()' > <input type='button' name='ksync' value='Keep Sync' onclick='keepNow()'></div> </td>\n"+
 	"</tr>\n"+
 	"<tr valign = 'top' bgcolor='#EFEFEF' valign='top'>\n"+
 	"<td>Host:</td><td>###SELECT###@<input type='text' size='16' name='host'> </td>\n"+

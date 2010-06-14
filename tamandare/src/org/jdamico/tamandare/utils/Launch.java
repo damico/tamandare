@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import org.jdamico.tamandare.components.LoggerManager;
 import org.jdamico.tamandare.dataobjects.NetworkInterfaceObject;
 import org.jdamico.tamandare.socket.Server;
+import org.jdamico.tamandare.threads.StartSchedulerMonitorThread;
+import org.jdamico.tamandare.threads.ThreadRunnableManager;
 import org.jdamico.tamandare.transactions.TransactionManager;
 import org.jdamico.tamandare.web.JettyController;
 
@@ -35,9 +37,17 @@ public class Launch extends JFrame {
 		TransactionManager tm = new TransactionManager();
 		tm.checkDB();
 		createPreFrame();
-		Server si = new Server();
+		
+		
+		//ThreadRunnableManager.getInstance().startSchedulerMonitor();
+		StartSchedulerMonitorThread ssmt = new StartSchedulerMonitorThread();
+		ssmt.start();
+		
+		
+		Server si = new Server(); //Socket Server
+		//Scheduler Monitor Thread
 		JettyController jController = new JettyController();
-		jController.init();
+		jController.init(); //Jetty Server
 		System.out.println("init 0 done");
 		si.initServer();
 		System.out.println("init 1 done");

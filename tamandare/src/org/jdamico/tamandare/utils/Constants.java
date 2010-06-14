@@ -32,7 +32,7 @@ public interface Constants {
 	public static final String SQL_GETDOCS_BY_TAG_DERBY = "select DOC_URL_HASH, XMLSERIALIZE(DOC_DATA " +
 	"AS clob ) " +
 	"FROM TAMANDARE.XMLDOCS " +
-	"WHERE XMLEXISTS('//tamandare/body/tags[contains(translate(.,\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"abcdefghijklmnopqrstuvwxyz\"),\"VAR\")]' passing BY REF DOC_DATA) ";
+	"WHERE DOC_URL_HASH is not null and XMLEXISTS('//tamandare/body/tags[contains(translate(.,\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"abcdefghijklmnopqrstuvwxyz\"),\"VAR\")]' passing BY REF DOC_DATA) ";
 
 
 	
@@ -51,6 +51,7 @@ public interface Constants {
 	public static final String SQL_GETDOCS_BY_TAGS_DERBY = "select XMLSERIALIZE(xmlquery('//tamandare/body/tags' passing BY REF DOC_DATA EMPTY ON EMPTY) " +
 	"AS clob) " +
 	"FROM TAMANDARE.XMLDOCS ";
+	
 
 	public static final String SQL_GETDOCS_BY_TAGS_BY_ID_DERBY = "select XMLSERIALIZE(xmlquery('//tamandare/body/tags' passing BY REF DOC_DATA EMPTY ON EMPTY) " +
 	"AS clob) " +
@@ -156,10 +157,31 @@ public interface Constants {
 													"DOC_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT TIMESTAMP)";
 	
 	
+
 	
+	public static final String SQL_PRESESSIONS_DERBY =	"create table TAMANDARE.PRESESSIONS (" +
+														"PRESESSIONS_ID INT GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) NOT NULL PRIMARY KEY," +
+														"PRESESSIONS_SOURCE_ENTITY VARCHAR(255)," +
+														"PRESESSIONS_TARGET_ENTITY VARCHAR(255)," +
+														"PRESESSIONS_DOC_DATA XML," +
+														"PRESESSIONS_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT TIMESTAMP)";
 	
+	public static final String SQL_HISTORYCONN_DERBY =	"create table TAMANDARE.HISTORYCONN (" +
+														"HISTORYCONN_ID INT GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) NOT NULL UNIQUE," +
+														"HISTORYCONN_ADDR VARCHAR(255)," +
+														"HISTORYCONN_ENTITY VARCHAR(255)," +
+														"HISTORYCONN_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT TIMESTAMP," +
+														"PRIMARY KEY (HISTORYCONN_ADDR, HISTORYCONN_ENTITY))"; 
 	
+	public static final String[] DEFAULT_TABLES = {SQL_PREPARE_DERBY, SQL_PRESESSIONS_DERBY, SQL_HISTORYCONN_DERBY};
+	public static final String[] DEFAULT_TABLES_NAMES = {"XMLDOCS", "PRESESSIONS", "HISTORYCONN"};
 	
+	public static final String SQL_SAVE_HISTORYCONN_DERBY = "insert into TAMANDARE.HISTORYCONN (HISTORYCONN_ADDR, HISTORYCONN_ENTITY) values (?,?)";
+	
+	public static final String SQL_GET_TABLES_DERBY = "select TABLENAME from  sys.systables st "
+        + "left join sys.sysschemas ss on st.schemaid=ss.schemaid where schemaname=?";
+	
+	public static final String SQL_GET_HISTORYCONN_DERBY = "SELECT HISTORYCONN_ADDR, HISTORYCONN_ENTITY FROM TAMANDARE.HISTORYCONN";
 	
 	
 	

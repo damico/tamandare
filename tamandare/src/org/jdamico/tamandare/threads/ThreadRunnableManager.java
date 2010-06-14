@@ -6,9 +6,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.jdamico.tamandare.components.LoggerManager;
-import org.jdamico.tamandare.transactions.Derbymanager;
+import org.jdamico.tamandare.dataobjects.HistoryConnection;
+import org.jdamico.tamandare.transactions.TransactionManager;
 
 public class ThreadRunnableManager {
 
@@ -69,7 +71,8 @@ public class ThreadRunnableManager {
 	public void sendMyDocsThread(String remotePeer, Map<String, String> docsMap) {
 
 
-		int executorsNumber = docsMap.size();
+		int executorsNumber = 1;
+		if(docsMap.size() > 0) executorsNumber = docsMap.size();
 
 		String threadName = "sendMyDocs";
 		ExecutorService threadExecutor = Executors.newFixedThreadPool( executorsNumber );
@@ -79,6 +82,12 @@ public class ThreadRunnableManager {
 		int innerThread = 0;
 		while(iter.hasNext()){
 			threadExecutor.execute( new SendMyDocsThread(remotePeer, iter.next()));
+			try {
+				threadExecutor.awaitTermination(5, TimeUnit.SECONDS);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Starting thread: "+threadName+" "+innerThread );
 			if(threadExecutor.isTerminated()){
 				threadExecutor.shutdown(); 
@@ -133,11 +142,48 @@ public class ThreadRunnableManager {
 				threadExecutor.shutdown(); 
 				LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Stopping thread: "+threadName+" "+innerThread );
 			}
-
 			innerThread++;
-		}
-		
+		}	
 	}
 
+	public void privateNetSyncThread() {
+		TransactionManager tm = new TransactionManager();
+		ArrayList<HistoryConnection> hConnections = tm.getHistoryConn();
+		String threadName = "privateNetSyncThread";
+		int executorsNumber = hConnections.size();
+		int innerThread = 0;
+		
+		ExecutorService threadExecutor = Executors.newFixedThreadPool( executorsNumber );
+		for(int i=0; i<hConnections.size(); i++){
+			
+			String host = "";
+			host = hConnections.get(i).getHost();
+			String entityName = "";
+			entityName = hConnections.get(i).getEntityName();
+			if(host.length() > 6 && entityName.length() > 3){
+				threadExecutor.execute(new PrivateNetSyncThread(host, entityName));
+				LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Starting thread: "+threadName+" "+innerThread );
+				if(threadExecutor.isTerminated()){
+					threadExecutor.shutdown(); 
+					LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Stopping thread: "+threadName+" "+innerThread );
+				}
+				innerThread++;
+			}
+		}
+	}
+
+	public void startSchedulerMonitor() throws InterruptedException {
+		while(true){
+			wait(30000);
+			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "startSchedulerMonitor()...");
+			privateNetSyncThread();
+		}
+	}
+
+
+	public void createPreSession(String fromAddr) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
