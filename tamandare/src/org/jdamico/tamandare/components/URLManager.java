@@ -185,8 +185,9 @@ public class URLManager extends TamandareObjectManager {
 		ArrayList<String> intersectionTagsArray = getTagsByIntersection(tObj.getBody().getTags());
 		for(int i=0; i<intersectionTagsArray.size(); i++){
 			docsMap = tm.getDocsByTag(intersectionTagsArray.get(i));
+			if(docsMap!=null) ThreadRunnableManager.getInstance().sendMyDocsThread(remotePeer, docsMap);
 		}
-		if(docsMap!=null) ThreadRunnableManager.getInstance().sendMyDocsThread(remotePeer, docsMap);
+		
 		ThreadRunnableManager.getInstance().sendIntersectionTagsThread(remotePeer, intersectionTagsArray);
 		
 		
