@@ -145,7 +145,10 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 			rs = ps.executeQuery();
 			tags = new ArrayList<String>();
 			while(rs.next()){
-				tags.add(rs.getString(1));
+				String element = rs.getString(1);
+				if(!tags.contains(element)){
+					tags.add(element);
+				}
 			}
 		} catch (SQLException e) {
 			LoggerManager.getInstance().logAtExceptionTime(this.getClass().getName(), "SQL: "+Constants.SQL_GETDOCS_BY_TAGS_DERBY+" > "+e.getMessage());

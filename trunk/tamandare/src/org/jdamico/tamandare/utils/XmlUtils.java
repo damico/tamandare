@@ -13,6 +13,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.jdamico.tamandare.components.LoggerManager;
 import org.jdamico.tamandare.exceptions.TamandareException;
 import org.xml.sax.SAXException;
 
@@ -51,6 +52,7 @@ public class XmlUtils {
 				} catch (UnsupportedEncodingException e1) {
 					e1.printStackTrace();
 				}
+				LoggerManager.getInstance().logAtExceptionTime(this.getClass().getName(), err+" > "+xml);
 				throw new TamandareException(e.getStackTrace(),err);
 			} catch (IOException e) {
 				try {

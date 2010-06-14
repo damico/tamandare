@@ -92,13 +92,27 @@ public class TamandareHelper {
 		tagsArray.clear();
 		StringTokenizer st = new StringTokenizer(rawTags.toString(), delimit);
 		while(st.hasMoreElements()){
-			tagsArray.add((String) st.nextElement());
+			String element = (String) st.nextElement();
+			element = element.trim();
+			if(!tagsArray.contains(element)){
+				tagsArray.add(element);
+			}else{
+				System.err.println("888888888888888888888888888888888888888888 "+element);
+			}
 		}
 
 		return tagsArray;
 	}
 
 
+	public ArrayList<String> putTags(ArrayList<String> tagsArray){
+		ArrayList<String> ret = new ArrayList<String>();
+		for(int i=0; i<tagsArray.size(); i++){
+			ret.add("<tags>"+tagsArray.get(i)+"</tags>");
+		}
+		return ret;
+	}
+	
 	public ArrayList<NetworkInterfaceObject> getMyIPs()	throws Exception {
 		
 		ArrayList<NetworkInterfaceObject> ifacesArray = new ArrayList<NetworkInterfaceObject>();
