@@ -60,11 +60,34 @@ public class ComplexPacketCommandManager {
 		return "true";
 	}
 	
+	public String sendMachineSessionAcceptance(String sComplexPacket) throws TamandareException{
+
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendMachineSessionAcceptance(String "+sComplexPacket+")");
+		ComplexPacket cp = TamandareHelper.getInstance().string2ComplexPacket(sComplexPacket);
+		LiveMemoryManager.setSessions(cp.getValue(), true);
+		
+		/*TODO:
+		 * Start a new thread to request the remote tags intersection and its urls
+		 */
+		
+		openRemoteRequest(); /* atomic */
+		
+		ThreadRunnableManager.getInstance().createPreSession(cp.getFromAddr());
+		//ThreadRunnableManager.getInstance().sendMyTags(cp.getFromAddr()); 	/* thread to send my tags */
+		//ThreadRunnableManager.getInstance().sendMySignatures(cp.getFromAddr()); 
+		
+		return "true";
+	}
+	
 	public String sendSessionDenied(String sComplexPacket) throws TamandareException{
 
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendSessionDenied(String "+sComplexPacket+")");
 		ComplexPacket cp = TamandareHelper.getInstance().string2ComplexPacket(sComplexPacket);
 		LiveMemoryManager.setSessions(cp.getValue(), false);
+		
+		/* TODO:
+		 * Consider to remove mapping for /RemoteRequest
+		 */
 		
 		return "false";
 	}
