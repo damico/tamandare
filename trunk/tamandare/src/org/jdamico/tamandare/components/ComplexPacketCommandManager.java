@@ -7,6 +7,7 @@ import org.jdamico.tamandare.utils.Constants;
 import org.jdamico.tamandare.utils.ManageProperties;
 import org.jdamico.tamandare.utils.TamandareHelper;
 import org.jdamico.tamandare.web.JettyController;
+import org.mortbay.jetty.servlet.ServletMapping;
 
 public class ComplexPacketCommandManager {
 	private static ComplexPacketCommandManager INSTANCE = null;
@@ -93,8 +94,19 @@ public class ComplexPacketCommandManager {
 	}
 	
 	public void openRemoteRequest(){
-		JettyController.handler.addServletWithMapping("org.jdamico.tamandare.web.RemoteRequest",	"/RemoteRequest");
+		
+		ServletMapping[] servletMappings = JettyController.handler.getServletMappings();
+		boolean alreadyOpen = false;
+		
+		for(int i = 0; i< servletMappings.length; i++ ){
+			ServletMapping sm = servletMappings[i];
+			if(sm.getServletName().equals("org.jdamico.tamandare.web.RemoteRequest")) alreadyOpen = true;
+		}
+		
+		if(!alreadyOpen) JettyController.handler.addServletWithMapping("org.jdamico.tamandare.web.RemoteRequest",	"/RemoteRequest");
 	}
+	
+	
 	
 	
 	
