@@ -71,25 +71,28 @@ public class ThreadRunnableManager {
 	public void sendMyDocsThread(String remotePeer, Map<String, String> docsMap) {
 
 
-		int executorsNumber = 1;
-		if(docsMap.size() > 0) executorsNumber = docsMap.size();
+		
+		if(docsMap.size() > 0){
+			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Preparing to send "+docsMap.size()+" docs..." );
+			String threadName = "sendMyDocs";
+			ExecutorService threadExecutor = Executors.newFixedThreadPool( docsMap.size() );
 
-		String threadName = "sendMyDocs";
-		ExecutorService threadExecutor = Executors.newFixedThreadPool( executorsNumber );
+			Collection<String> docsCol = docsMap.values();
+			Iterator<String> iter = docsCol.iterator();
+			int innerThread = 0;
+			while(iter.hasNext()){
+				threadExecutor.execute( new SendMyDocsThread(remotePeer, iter.next()));
+				LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Starting thread: "+threadName+" "+innerThread );
+				if(threadExecutor.isTerminated()){
+					threadExecutor.shutdown(); 
+					LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Stopping thread: "+threadName+" "+innerThread );
+				}
 
-		Collection<String> docsCol = docsMap.values();
-		Iterator<String> iter = docsCol.iterator();
-		int innerThread = 0;
-		while(iter.hasNext()){
-			threadExecutor.execute( new SendMyDocsThread(remotePeer, iter.next()));
-			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Starting thread: "+threadName+" "+innerThread );
-			if(threadExecutor.isTerminated()){
-				threadExecutor.shutdown(); 
-				LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Stopping thread: "+threadName+" "+innerThread );
+				innerThread++;
 			}
-
-			innerThread++;
 		}
+
+		
 
 	}
 
