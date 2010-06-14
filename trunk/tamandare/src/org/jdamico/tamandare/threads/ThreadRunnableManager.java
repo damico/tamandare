@@ -152,24 +152,26 @@ public class ThreadRunnableManager {
 		String threadName = "privateNetSyncThread";
 		int executorsNumber = hConnections.size();
 		int innerThread = 0;
-		
-		ExecutorService threadExecutor = Executors.newFixedThreadPool( executorsNumber );
-		for(int i=0; i<hConnections.size(); i++){
-			
-			String host = "";
-			host = hConnections.get(i).getHost();
-			String entityName = "";
-			entityName = hConnections.get(i).getEntityName();
-			if(host.length() > 6 && entityName.length() > 3){
-				threadExecutor.execute(new PrivateNetSyncThread(host, entityName));
-				LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Starting thread: "+threadName+" "+innerThread );
-				if(threadExecutor.isTerminated()){
-					threadExecutor.shutdown(); 
-					LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Stopping thread: "+threadName+" "+innerThread );
+		if(executorsNumber > 0){
+			ExecutorService threadExecutor = Executors.newFixedThreadPool( executorsNumber );
+			for(int i=0; i<hConnections.size(); i++){
+				
+				String host = "";
+				host = hConnections.get(i).getHost();
+				String entityName = "";
+				entityName = hConnections.get(i).getEntityName();
+				if(host.length() > 6 && entityName.length() > 3){
+					threadExecutor.execute(new PrivateNetSyncThread(host, entityName));
+					LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Starting thread: "+threadName+" "+innerThread );
+					if(threadExecutor.isTerminated()){
+						threadExecutor.shutdown(); 
+						LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Stopping thread: "+threadName+" "+innerThread );
+					}
+					innerThread++;
 				}
-				innerThread++;
 			}
 		}
+		
 	}
 
 	public void startSchedulerMonitor() throws InterruptedException {
