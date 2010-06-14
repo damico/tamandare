@@ -82,12 +82,6 @@ public class ThreadRunnableManager {
 		int innerThread = 0;
 		while(iter.hasNext()){
 			threadExecutor.execute( new SendMyDocsThread(remotePeer, iter.next()));
-			try {
-				threadExecutor.awaitTermination(5, TimeUnit.SECONDS);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Starting thread: "+threadName+" "+innerThread );
 			if(threadExecutor.isTerminated()){
 				threadExecutor.shutdown(); 

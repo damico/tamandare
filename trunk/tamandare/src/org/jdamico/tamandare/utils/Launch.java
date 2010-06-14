@@ -41,7 +41,7 @@ public class Launch extends JFrame {
 		
 		//ThreadRunnableManager.getInstance().startSchedulerMonitor();
 		StartSchedulerMonitorThread ssmt = new StartSchedulerMonitorThread();
-		ssmt.start();
+		//ssmt.start();
 		
 		
 		Server si = new Server(); //Socket Server
