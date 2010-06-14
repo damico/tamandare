@@ -213,6 +213,7 @@ public class URLManager extends TamandareObjectManager {
 				}else{
 					/* builds an error xml with an inner exception */
 					combo = setErrorXML(new TamandareException(Constants.URL_ALREADY_ADDED), combo);
+					LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), Constants.URL_ALREADY_ADDED);
 				}
 				
 			} catch (TamandareException e) {
@@ -220,7 +221,7 @@ public class URLManager extends TamandareObjectManager {
 				combo = setErrorXML(e, combo);
 			}
 			
-			LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "combo.getXml() "+combo.getXml());
+			
 
 			
 			

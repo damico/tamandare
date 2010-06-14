@@ -96,8 +96,6 @@ public class TamandareHelper {
 			element = element.trim();
 			if(!tagsArray.contains(element)){
 				tagsArray.add(element);
-			}else{
-				System.err.println("888888888888888888888888888888888888888888 "+element);
 			}
 		}
 
