@@ -21,7 +21,7 @@ public class RequestBuilder {
 		
 		
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendPost param: "+param);
-		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendPost xml: ");
+		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendPost xml: "+xml);
 		LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "sendPost host: "+host);
 		
 		try {
