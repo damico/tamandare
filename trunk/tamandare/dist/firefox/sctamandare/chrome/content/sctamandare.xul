@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE sctamandare SYSTEM "chrome://sctamandare/locale/translations.dtd">
+<?xml-stylesheet href="chrome://sctamandare/skin/skin.css" type="text/css"?>
+
+<overlay id="scTamandare-Overlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript" src="chrome://sctamandare/content/sctamandare.js" />
+
+<toolbox id="navigator-toolbox">
+
+<toolbar id="scTamandare-Toolbar" toolbarname="scTamandare Toolbar" accesskey="T"
+         class="chromeclass-toolbar" context="toolbar-context-menu"
+         hidden="false" persist="hidden" >
+
+<toolbar id="scTamandare" toolbarname="Social Bookmark Tamandare Interface" >
+       <toolbarbutton id="scTbtn" label="scTamandare" oncommand="openScT()" />
+</toolbar>
+
+</toolbar>
+
+</toolbox>
+
+
+
+
+
+<toolbarpalette id="BrowserToolbarPalette">
+		<toolbaritem id="capbar" flex="1">
+			<toolbarbutton id="sctamandare-toolbar-button" label="scTamandare" tooltiptext="&runsct;" oncommand="openScT()"/>
+		</toolbaritem>
+</toolbarpalette>
+
+
+
+</overlay>
+
+
+
+
