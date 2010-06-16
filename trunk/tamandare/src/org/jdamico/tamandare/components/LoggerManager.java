@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 import org.jdamico.tamandare.dataobjects.LogData;
 import org.jdamico.tamandare.utils.Constants;
+import org.jdamico.tamandare.utils.TamandareHelper;
 
 public class LoggerManager {
 	
@@ -53,7 +54,7 @@ public class LoggerManager {
 				fileName = Constants.TAMANDARE_LOG_FOLDER + fileName;
 				
 				
-				String stime = getCurrentDateTimeFormated();
+				String stime = TamandareHelper.getInstance().getCurrentDateTimeFormated();
 				if(logLevel){
 					formatedLog = stime+Constants.SEVERE_LOGLEVEL+formatedLog+"\n";
 				}else{
@@ -147,12 +148,7 @@ public class LoggerManager {
 			return listenerLog.length();
 		}
 		
-		public String getCurrentDateTimeFormated(){
-			Date date = new Date();
-			Format formatter = new SimpleDateFormat("yyyyMMMdd_HH:mm:ss");
-			String stime = formatter.format(date);
-			return stime;
-		}
+		
 	}
 
 
