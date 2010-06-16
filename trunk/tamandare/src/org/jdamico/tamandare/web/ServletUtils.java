@@ -35,6 +35,7 @@ public class ServletUtils {
 		String ret = 	"<html><head><title>"+title+"</title>" +
 						"<SCRIPT LANGUAGE=\"JavaScript\">" +
 						"function syncNow(){ window.location='initConn'; }" +
+						"function keepSync(){ window.location='keepSync'; }" +
 						"</script>" +
 						"</head><body>\n" +
 						"<h1>"+title+" @ "+ManageProperties.getInstance().read(Constants.AGENT_NET_PATH, Constants.MY_ADDR)+"</h1><hr>\n";

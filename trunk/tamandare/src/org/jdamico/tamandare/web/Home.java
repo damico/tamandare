@@ -18,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.jdamico.tamandare.components.EntityManager;
 import org.jdamico.tamandare.components.LiveMemoryManager;
 import org.jdamico.tamandare.components.URLManager;
+import org.jdamico.tamandare.transactions.TransactionManager;
 import org.jdamico.tamandare.utils.ManageProperties;
+import org.jdamico.tamandare.utils.TamandareHelper;
 
 public class Home extends HttpServlet {
 
@@ -69,7 +71,7 @@ public class Home extends HttpServlet {
 	private String bodyC = 	"<form method = 'post' action = 'initConn'>" +
 	"<table width = \"400\" align = \"center\" cellpadding = '10' cellspacing = '0'>\n"+
 	"<tr valign = 'top' bgcolor='#99B8FF' valign='top'>\n"+
-	"<td><b><font color='WHITE'>Connect</font></b></td> <td> <div align='right'> <input type='button' name='snow' value='Sync Now!' onclick='syncNow()' > <input type='button' name='ksync' value='Keep Sync' onclick='keepNow()'></div> </td>\n"+
+	"<td><b><font color='WHITE'>Connect</font></b></td> <td> <div align='right'> <input type='button' name='snow' value='Sync Now!' onclick='syncNow()' > <input type='button' name='ksync' value='###KSYNC###' onclick='keepSync()'></div> </td>\n"+
 	"</tr>\n"+
 	"<tr valign = 'top' bgcolor='#EFEFEF' valign='top'>\n"+
 	"<td>Host:</td><td>###SELECT###@<input type='text' size='16' name='host'> </td>\n"+
@@ -160,11 +162,40 @@ public class Home extends HttpServlet {
 		
 		Object[] keysArray = keys.toArray();
 		
+		String[] ips = null;
+		
+		try {
+			ips = TamandareHelper.getInstance().getMyIPsByStringArray();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		StringBuffer sbIP = new StringBuffer();
+		sbIP.append("<select name='myip'>");
+		if(ips!=null){
+			for(int j=0; j<ips.length; j++){
+				sbIP.append("<option>"+ips[j]+"</option>");
+			}	
+		}
+		sbIP.append("</select>");
 		
 		
 		
 		String bodyE = 	"<table width='100' border='0' align='center' cellpadding='8' cellspacing='8'><tr><td>" +
 				"<table width = \"250\" align = \"center\" cellpadding = '10' cellspacing = '0'>\n"+
+		"<tr valign = 'top' bgcolor='#99B8FF' valign='top'>\n"+
+		"<td><b><font color='WHITE'>My Networks</font></b></td>\n"+
+		"</tr>\n"+
+		"<tr valign = 'top' bgcolor='#EFEFEF' valign='top'>\n"+
+		"<td>" +
+		"<form action='setIP' method='post'>" +
+		""+sbIP.toString()+" <input type='submit' name='setip' value='change'> " +
+		"</form>" +
+		"</td>\n"+
+		"</tr>\n"+
+		"</table>" +
+		"</td></tr>" +
+		
+		"<table width = \"250\" align = \"center\" cellpadding = '10' cellspacing = '0'>\n"+
 		"<tr valign = 'top' bgcolor='#99B8FF' valign='top'>\n"+
 		"<td><b><font color='WHITE'>Tags</font></b></td>\n"+
 		"</tr>\n"+
@@ -172,7 +203,9 @@ public class Home extends HttpServlet {
 		"<td>"+t.toString()+"</td>\n"+
 		"</tr>\n"+
 		"</table>" +
-		"</td></tr></table>" +
+		"</td></tr>" +
+		
+		"</table>" +
 		"\n";
 		
 		PrintWriter out = response.getWriter();
@@ -184,6 +217,10 @@ public class Home extends HttpServlet {
 				"</table>";
 		
 		staticScreen = staticScreen.replaceAll("###SELECT###", sb.toString());
+		
+		TransactionManager tm = new TransactionManager();
+		if(tm.isKeepSync()) staticScreen = staticScreen.replaceAll("###KSYNC###", "Stop Auto-Sync!");
+		else staticScreen = staticScreen.replaceAll("###KSYNC###", "Keep Sync!");
 		
 		out.println(staticScreen);
 		
