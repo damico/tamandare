@@ -36,12 +36,11 @@ public class Launch extends JFrame {
 
 		TransactionManager tm = new TransactionManager();
 		tm.checkDB();
-		createPreFrame();
+		//createPreFrame();
 		
 		
-		//ThreadRunnableManager.getInstance().startSchedulerMonitor();
 		StartSchedulerMonitorThread ssmt = new StartSchedulerMonitorThread();
-		//ssmt.start();
+		ssmt.start();
 		
 		
 		Server si = new Server(); //Socket Server
@@ -58,16 +57,9 @@ public class Launch extends JFrame {
 
 	private static void createPreFrame() throws Exception {
 
-		ArrayList<NetworkInterfaceObject> myIps = TamandareHelper.getInstance().getMyIPs();
-		String[] ips = new String[myIps.size()];
-		for(int i=0; i<myIps.size(); i++){
-			ips[i] = myIps.get(i).getIfaceIPv4();
-		}
-
+		String[] ips = TamandareHelper.getInstance().getMyIPsByStringArray();
 		JFrame preFrame = new JFrame("Tamandare Agent: Network setup");
 		preFrame.setSize(490, 60);
-
-
 		JLabel ipsLabel = new JLabel();
 		ipsLabel.setBounds(15, 10, 150, 20);
 		ipsLabel.setText("Select the correct IP:");
