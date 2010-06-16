@@ -2,11 +2,13 @@ package org.jdamico.tamandare.transactions;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 import org.jdamico.tamandare.components.Converter2ObjFactory;
 import org.jdamico.tamandare.components.LoggerManager;
 import org.jdamico.tamandare.dataobjects.HistoryConnection;
+import org.jdamico.tamandare.dataobjects.Job;
 import org.jdamico.tamandare.dataobjects.TamandareBody;
 import org.jdamico.tamandare.dataobjects.TamandareXMLObject;
 import org.jdamico.tamandare.exceptions.TamandareException;
@@ -105,7 +107,7 @@ public class TransactionManager {
 					Derbymanager.getInstance().prepareDB(Constants.DEFAULT_TABLES[i]); 
 					LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "DB not ready, creating default tables. ["+Constants.DEFAULT_TABLES[i]+"]");
 				}
-				
+
 			}
 			check++;
 		}
@@ -163,5 +165,63 @@ public class TransactionManager {
 		}
 		return hConnections;
 	}
+
+	public ArrayList<Job> getJobs() {
+		ArrayList<Job> jobs = null;;
+		try {
+			jobs = Derbymanager.getInstance().getJobs();
+		} catch (TamandareException e) {
+			e.printStackTrace();
+		}
+		return jobs;
+	}
+
+	public void handleKeepSyncJob() {
+		String jobName = "privateNetSyncThread";
+		try{
+			if(Derbymanager.getInstance().isKeepSyncJob()) deleteJobByName(jobName);
+			else addJob(jobName, 120);
+		} catch (TamandareException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void addJob(String jobName, int interval) {
+		try{
+			Derbymanager.getInstance().addJob(jobName, interval);
+		} catch (TamandareException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public boolean isKeepSync() {
+		boolean ret = false;
+		try{
+			ret = Derbymanager.getInstance().isKeepSyncJob();
+		} catch (TamandareException e) {
+			e.printStackTrace();
+		}
+		return ret;
+	}
+
+	public void updateKeepSync(Date last) {
+		try{
+			String sdate = TamandareHelper.getInstance().date2String(last, "yyyy-MM-dd hh:mm:ss");
+			Derbymanager.getInstance().updateKeepSync(sdate);
+		} catch (TamandareException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void deleteJobByName(String jobName) {
+		try{
+			Derbymanager.getInstance().deleteJobByName(jobName);
+		} catch (TamandareException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 }
