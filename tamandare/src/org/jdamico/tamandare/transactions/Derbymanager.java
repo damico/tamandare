@@ -5,12 +5,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.jdamico.tamandare.components.LoggerManager;
 import org.jdamico.tamandare.dataobjects.HistoryConnection;
+import org.jdamico.tamandare.dataobjects.Job;
 import org.jdamico.tamandare.dataobjects.TamandareBody;
 import org.jdamico.tamandare.exceptions.TamandareException;
 import org.jdamico.tamandare.utils.Constants;
@@ -611,4 +614,154 @@ public class Derbymanager extends DatabaseConfig implements DatabaseAdaptor {
 		}
 		return ret;
 	}
+
+	public ArrayList<Job> getJobs() throws TamandareException {
+		ArrayList<Job> ret = new ArrayList<Job>();
+
+		PreparedStatement ps = null;
+		Connection con = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName(getClassfn());
+			con = DriverManager.getConnection(getDBurl());
+			ps = con.prepareStatement(Constants.SQL_GET_JOBS_DERBY);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				 Timestamp cDate = rs.getTimestamp(4);
+				
+				ret.add(new Job(rs.getInt(1), rs.getString(2), rs.getInt(3), new java.util.Date(cDate.getTime()) ));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new TamandareException(e.getStackTrace(), e.getMessage());
+		} catch (ClassNotFoundException e) {
+			throw new TamandareException(e.getStackTrace());
+		} catch (Exception e) {
+			throw new TamandareException(e.getStackTrace());
+		} finally {
+			try { if(rs!=null) rs.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(ps!=null) ps.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(con!=null) con.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+		}
+		return ret;
+	}
+
+	public boolean isKeepSyncJob() throws TamandareException {
+		boolean ret = false;
+
+		PreparedStatement ps = null;
+		Connection con = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName(getClassfn());
+			con = DriverManager.getConnection(getDBurl());
+			ps = con.prepareStatement(Constants.SQL_ISKEEPSYNC_DERBY);
+			ps.setString(1, "privateNetSyncThread");
+			rs = ps.executeQuery();
+			while(rs.next()){
+				ret = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new TamandareException(e.getStackTrace(), e.getMessage());
+		} catch (ClassNotFoundException e) {
+			throw new TamandareException(e.getStackTrace());
+		} catch (Exception e) {
+			throw new TamandareException(e.getStackTrace());
+		} finally {
+			try { if(rs!=null) rs.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(ps!=null) ps.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(con!=null) con.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+		}
+		return ret;
+	}
+
+	public void deleteJobByName(String jobName) throws TamandareException {
+		PreparedStatement ps = null;
+		Connection con = null;
+
+		try {
+			Class.forName(getClassfn());
+			con = DriverManager.getConnection(getDBurl());
+			ps = con.prepareStatement(Constants.SQL_DELETE_JOB_BY_NAME);
+			ps.setString(1, jobName);
+			ps.executeUpdate();
+		
+		} catch (SQLException e) {
+			throw new TamandareException(e.getStackTrace(), e.getMessage());
+		} catch (ClassNotFoundException e) {
+
+			throw new TamandareException(e.getStackTrace());
+		} catch (Exception e) {
+
+			throw new TamandareException(e.getStackTrace());
+		} finally {
+
+			try { if(ps!=null) ps.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(con!=null) con.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+
+		}
+		
+	}
+
+	public void addJob(String jobName, int interval) throws TamandareException {
+		PreparedStatement ps = null;
+		Connection con = null;
+
+		try {
+			Class.forName(getClassfn());
+			con = DriverManager.getConnection(getDBurl());
+			ps = con.prepareStatement(Constants.SQL_ADD_JOB_DERBY);
+			ps.setString(1, jobName);
+			ps.setInt(2, interval);
+			ps.executeUpdate();
+		
+		} catch (SQLException e) {
+			throw new TamandareException(e.getStackTrace(), e.getMessage());
+		} catch (ClassNotFoundException e) {
+
+			throw new TamandareException(e.getStackTrace());
+		} catch (Exception e) {
+
+			throw new TamandareException(e.getStackTrace());
+		} finally {
+
+			try { if(ps!=null) ps.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(con!=null) con.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+
+		}
+		
+	}
+
+	public void updateKeepSync(String last) throws TamandareException {
+		PreparedStatement ps = null;
+		Connection con = null;
+
+		try {
+			Class.forName(getClassfn());
+			con = DriverManager.getConnection(getDBurl());
+			ps = con.prepareStatement(Constants.SQL_UPDATEKEEPSYNC_DERBY);
+			ps.setString(2, "privateNetSyncThread");
+			ps.setString(1, last);
+			ps.executeUpdate();
+		
+		} catch (SQLException e) {
+			throw new TamandareException(e.getStackTrace(), e.getMessage());
+		} catch (ClassNotFoundException e) {
+
+			throw new TamandareException(e.getStackTrace());
+		} catch (Exception e) {
+
+			throw new TamandareException(e.getStackTrace());
+		} finally {
+
+			try { if(ps!=null) ps.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+			try { if(con!=null) con.close(); } catch (SQLException e) { throw new TamandareException(e.getStackTrace()); }
+
+		}
+	}
+
+	
 }
