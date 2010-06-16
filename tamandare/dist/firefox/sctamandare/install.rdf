@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+    <Description about="urn:mozilla:install-manifest">
+
+        <!-- Required Items -->
+        <em:id>damico@dcon.com.br</em:id>
+        <em:name>sctamandare</em:name>
+        <em:version>1.0</em:version>
+
+<em:file>
+			<Description about="urn:mozilla:extension:file:sctamandare.jar">
+			<em:package>content/</em:package>
+			
+			</Description>
+		</em:file>
+
+
+
+        <em:targetApplication>
+            <Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>3.6.*</em:maxVersion>
+            </Description>
+        </em:targetApplication>
+
+        <!-- Optional Items -->
+        <em:creator>Jose Ricardo de Oliveira Damico</em:creator>
+        <em:description>sctamandare</em:description>
+        <em:homepageURL>http://www.dcon.com.br</em:homepageURL>
+
+    </Description>
+</RDF>

@@ -1,0 +1,28 @@
+<html>
+<head><title>Tamandare Extension</title>
+<script type="text/javascript" src="prototype.js"></script>
+<script type="text/javascript">
+function tryAgent(){
+	
+	var d = $('msg');
+	d.hide();
+	var iret = '0';	
+
+	new Ajax.Request('http://127.0.0.1:8989/status', {method:'GET',
+    	  onSuccess: function(transport){
+		ret = transport.responseText.evalJSON();
+		if(ret.version == "0.0.1"){
+		 window.location='http://127.0.0.1:8989/home';
+		 iret = '1';}
+        },
+        onFailure: function(){ d.show(); }});
+	if(iret=='0') d.show();
+}
+
+</script>
+</head>
+<body onload='tryAgent()'>
+<br><br>
+<div align='center' id='msg'><img src='tamandareout.png' alt='Tamandare is not accessible'></div>
+</body>
+</html>
