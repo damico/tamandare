@@ -2,7 +2,11 @@ package org.jdamico.tamandare.utils;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
@@ -148,4 +152,56 @@ public class TamandareHelper {
 		return ifacesArray;
 	}
 
+	public boolean isReady(Date now, Date last, int interval) {
+		
+		boolean ret = false;
+		
+		Calendar calNow = Calendar.getInstance();
+	    calNow.setTime(now);
+	    
+	    Calendar calLast = Calendar.getInstance();
+	    calLast.setTime(last);
+	    
+	    long millisecondsNow = calNow.getTimeInMillis();
+	    long millisecondsLast = calLast.getTimeInMillis();
+	    long diff = millisecondsNow - millisecondsLast;
+	    long diffSeconds = diff / 1000;
+	    
+	    if(diffSeconds >= interval) ret = true;
+	    
+	    LoggerManager.getInstance().logAtDebugTime(this.getClass().getName(), "Last: "+date2String(last)+" | Now: "+date2String(now)+" | Diff: "+diffSeconds+"");
+	    
+	    System.out.println("Last: "+date2String(last)+" | Now: "+date2String(now)+" | Diff: "+diffSeconds+"");
+	    
+	    
+		return ret;
+	}
+	
+	public String date2String(Date date){
+		Format formatter = new SimpleDateFormat("yyyyMMMdd_HH:mm:ss");
+		String stime = formatter.format(date);
+		return stime;
+	}
+
+	public String date2String(Date date, String format){
+		Format formatter = new SimpleDateFormat(format);
+		String stime = formatter.format(date);
+		return stime;
+	}
+	
+	public String getCurrentDateTimeFormated(){
+		
+		return date2String(new Date());
+		
+	}
+	
+	public String[] getMyIPsByStringArray() throws Exception{
+		ArrayList<NetworkInterfaceObject> myIps = getMyIPs();
+		String[] ips = new String[myIps.size()];
+		for(int i=0; i<myIps.size(); i++){
+			ips[i] = myIps.get(i).getIfaceIPv4();
+		}
+		return ips;
+	}
+	
 }
