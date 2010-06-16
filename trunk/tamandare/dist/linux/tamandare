@@ -8,12 +8,12 @@ touch /var/lock/tamandare
 # Carry out specific functions when asked to by the system
 case "$1" in
   start)
-    echo "Starting script tamandare "
-    echo "Could do more here"
+    echo "Starting tamandare "
+    /opt/tamandare/startTamandareAgents.sh
     ;;
   stop)
-    echo "Stopping script tamandare"
-    echo "Could do more here"
+    echo "Stopping tamandare"
+    /opt/tamandare/stopTamandareAgents.sh
     ;;
   *)
     echo "Usage: /etc/init.d/tamandare {start|stop}"

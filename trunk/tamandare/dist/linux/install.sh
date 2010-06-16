@@ -8,6 +8,7 @@ sudo touch /var/log/tamandare/tamandare.log
 sudo mkdir /opt/derby
 sudo echo > "dbpath = /home/`$(whoami)`/.tamandare/db"
 sudo chmod 755 /etc/init.d/tamandare
+sudo chmod 755 startTamandareAgents.sh
 sudo update-rc.d tamandare defaults
 
 echo ""
