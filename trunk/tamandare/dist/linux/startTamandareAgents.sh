@@ -1,2 +1,2 @@
 #!/bin/bash
-java -jar tamandare.jar
+java -jar tamandare.jar &
