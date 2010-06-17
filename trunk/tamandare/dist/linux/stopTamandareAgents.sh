@@ -1,2 +1,2 @@
 #!/bin/bash
-java -cp tamandare.jar  org.jdamico.tamandare.utils.KillAgent &
+java -cp /opt/tamandare/tamandare.jar  org.jdamico.tamandare.utils.KillAgent &
