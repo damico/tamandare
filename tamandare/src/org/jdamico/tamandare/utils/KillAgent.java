@@ -23,8 +23,9 @@ public class KillAgent {
 	        wr.flush();
 	        conn.getInputStream();
 	        wr.close();
+	        System.out.println("Stopped!");
 	    } catch (Exception e) {
-	    	e.printStackTrace();
+	    	System.out.println("No agent found!");
 	    }
 	}
 
