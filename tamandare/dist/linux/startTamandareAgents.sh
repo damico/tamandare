@@ -1,2 +1,2 @@
 #!/bin/bash
-java -jar tamandare.jar &
+java -jar /opt/tamandare/tamandare.jar &
