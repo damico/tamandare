@@ -1,0 +1,8 @@
+* News from Dec, 12, 2010:
+   * Jose Ricardo de Oliveira Damico, introduces the concept of PSSE (Personal Social Search Engine) using Tamandare project.
+ * News from Dec, 10, 2010:
+   * Finally, after a lot of coding sessions, I've applied several intelligent algorithms from Tamandare, in the building of a search engine. The main search theme was "teenagers pop stars". The engine (aka fanZine) started to search, collect and produce content about:  RIHANNA, JUSTIN BIEBER, MILEY CYRUS, TAYLOR SWIFT, BLACK EYED PEAS, KATY PERRY, SELENA GOMEZ, DEMI LOVATO, SHAKIRA, PARAMORE, FERGIE, ALICIA KEYS among others. The result was amazing. The complete list can be seen at http://dcon.com.br/hbaf/
+
+ * News from Jan, 01, 2010:
+
+<wiki:video url="http://www.youtube.com/watch?v=Qc8_EUvEBeY"/>
